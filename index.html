@@ -1,2514 +1,896 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LuxeEstate | Premium Real Estate USA</title>
-  <meta name="description" content="Find luxury homes, apartments and commercial properties across the United States with LuxeEstate — your premium real estate partner.">
-  <meta name="keywords" content="luxury real estate, premium properties, homes for sale, real estate agency USA">
-  <meta property="og:title" content="LuxeEstate — Premium Real Estate">
-  <meta property="og:description" content="Find your dream property with LuxeEstate">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="SparkleClean — premium home & office cleaning that gives you back your time. Trusted, insured, eco-friendly. Book a sparkling clean in 60 seconds." />
+  <title>SparkleClean — Premium Cleaning Services You'll Love</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --primary-dark: #0a0a0f;
-      --secondary-dark: #12121a;
-      --card-bg: rgba(255,255,255,0.04);
-      --gold: #c9a84c;
-      --gold-light: #e8d5a3;
-      --gold-glow: rgba(201,168,76,0.3);
+      --primary: #0891b2;
+      --primary-dark: #0e7490;
+      --secondary: #22d3ee;
+      --cta: #22c55e;
+      --cta-dark: #16a34a;
+      --bg: #ecfeff;
+      --bg-soft: #f0fdfa;
       --white: #ffffff;
-      --white-60: rgba(255,255,255,0.6);
-      --white-10: rgba(255,255,255,0.1);
-      --glass: rgba(255,255,255,0.06);
-      --border: rgba(255,255,255,0.08);
+      --text: #164e63;
+      --text-soft: #4b7c8c;
+      --muted: #7a9aa6;
+      --line: #d4eef3;
+      --shadow-sm: 0 4px 14px rgba(8, 145, 178, 0.08);
+      --shadow-md: 0 14px 40px rgba(8, 145, 178, 0.12);
+      --shadow-lg: 0 30px 70px rgba(8, 145, 178, 0.18);
+      --radius: 18px;
+      --radius-lg: 28px;
+      --maxw: 1200px;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
-      min-height: 100vh;
+      font-family: 'Open Sans', system-ui, sans-serif;
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.6;
       overflow-x: hidden;
-      color: var(--white);
-      background: var(--primary-dark);
-      font-family: "Inter", Arial, sans-serif;
-      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
+    h1, h2, h3, h4, .logo, .stat-num, .price-amount {
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.12;
+      letter-spacing: -0.02em;
     }
 
-    button,
-    input,
-    select,
-    textarea {
-      font: inherit;
-    }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+    img { max-width: 100%; display: block; }
 
-    section {
-      position: relative;
-      overflow: hidden;
-    }
+    .container { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
 
-    .container {
-      width: min(1180px, calc(100% - 48px));
-      margin: 0 auto;
-    }
+    .section { padding: clamp(72px, 10vw, 130px) 0; position: relative; }
 
-    .loader {
-      position: fixed;
-      inset: 0;
-      z-index: 2000;
-      display: grid;
-      place-items: center;
-      background: #000;
-    }
-
-    .loader-logo {
-      color: var(--gold);
-      font-family: "Playfair Display", serif;
-      font-size: 42px;
-      font-weight: 900;
-      letter-spacing: 4px;
-    }
-
-    .navbar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 1000;
-      width: 100%;
-      padding: 24px 0;
-      transition: background 0.3s ease, padding 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease;
-      border-bottom: 1px solid transparent;
-    }
-
-    .navbar.scrolled {
-      padding: 15px 0;
-      background: rgba(10,10,15,0.95);
-      border-color: var(--border);
-      backdrop-filter: blur(10px);
-    }
-
-    .nav-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 28px;
-    }
-
-    .logo {
-      color: var(--gold);
-      font-family: "Playfair Display", serif;
-      font-size: 24px;
-      font-weight: 900;
-      letter-spacing: 1px;
-      white-space: nowrap;
-    }
-
-    .nav-menu {
-      display: flex;
-      align-items: center;
-      gap: 32px;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 28px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      position: relative;
-      color: var(--white);
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-
-    .nav-links a::after {
-      content: "";
-      position: absolute;
-      right: 0;
-      bottom: -8px;
-      left: 0;
-      height: 1px;
-      background: var(--gold);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.3s ease;
-    }
-
-    .nav-links a:hover::after {
-      transform: scaleX(1);
-    }
-
-    .outline-btn,
-    .gold-btn,
-    .ghost-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 54px;
-      padding: 16px 40px;
-      border: 1px solid var(--gold);
-      border-radius: 0;
-      background: transparent;
-      color: var(--gold);
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-    }
-
-    .outline-btn:hover,
-    .outline-btn:focus-visible {
-      background: var(--gold);
-      color: var(--primary-dark);
-      transform: scale(1.05);
-      box-shadow: 0 0 34px var(--gold-glow);
-    }
-
-    .gold-btn {
-      background: var(--gold);
-      color: var(--primary-dark);
-    }
-
-    .gold-btn:hover,
-    .gold-btn:focus-visible {
-      transform: scale(1.05);
-      box-shadow: 0 0 34px var(--gold-glow);
-    }
-
-    .ghost-btn {
-      border-color: var(--white);
-      color: var(--white);
-    }
-
-    .ghost-btn:hover,
-    .ghost-btn:focus-visible {
-      background: var(--white);
-      color: var(--primary-dark);
-      transform: scale(1.05);
-    }
-
-    .hamburger {
-      display: none;
-      width: 46px;
-      height: 46px;
-      border: 1px solid var(--border);
-      background: var(--glass);
-      color: var(--white);
-      font-size: 20px;
-    }
-
-    .hero {
-      height: 100vh;
-      min-height: 720px;
-      display: grid;
-      place-items: center;
-      background: var(--primary-dark);
-    }
-
-    #heroCanvas {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      transform: translateZ(0);
-    }
-
-    .hero::after {
-      content: "";
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      height: 38%;
-      background: linear-gradient(0deg, rgba(201,168,76,0.18), rgba(10,10,15,0));
-      pointer-events: none;
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      width: min(1000px, calc(100% - 40px));
-      text-align: center;
-    }
-
-    .section-label {
-      display: inline-block;
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 13px; font-weight: 600; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--primary);
+      background: var(--bg); padding: 8px 16px; border-radius: 100px;
       margin-bottom: 18px;
-      color: var(--gold);
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 4px;
-      text-transform: uppercase;
     }
+    .eyebrow::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--cta); }
 
-    .hero h1 {
-      overflow: hidden;
-      color: var(--white);
-      font-family: "Playfair Display", serif;
-      font-size: 96px;
-      font-weight: 900;
-      line-height: 0.98;
-    }
-
-    .hero h1 span {
-      display: inline-block;
-    }
-
-    .hero p {
-      max-width: 620px;
-      margin: 26px auto 0;
-      color: var(--white-60);
-      font-size: 18px;
-    }
-
-    .hero-actions {
-      display: flex;
-      justify-content: center;
-      gap: 18px;
-      margin-top: 38px;
-    }
-
-    .scroll-indicator {
-      position: absolute;
-      z-index: 3;
-      bottom: 34px;
-      left: 50%;
-      color: var(--white-60);
-      font-size: 11px;
-      letter-spacing: 2px;
-      text-align: center;
-      text-transform: uppercase;
-      transform: translateX(-50%);
-    }
-
-    .scroll-indicator i {
-      display: block;
-      margin-bottom: 8px;
-      color: var(--gold);
-      font-size: 18px;
-      animation: bounceArrow 1.5s infinite;
-    }
-
-    .stats {
-      padding: 60px 0;
-      background: var(--secondary-dark);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-    }
-
-    .stat-item {
-      position: relative;
-      text-align: center;
-    }
-
-    .stat-item:not(:last-child)::after {
-      content: "";
-      position: absolute;
-      top: 16px;
-      right: 0;
-      width: 1px;
-      height: 70px;
-      background: linear-gradient(180deg, transparent, var(--gold), transparent);
-    }
-
-    .stat-number {
-      display: block;
-      color: var(--gold);
-      font-family: "Playfair Display", serif;
-      font-size: 56px;
-      font-weight: 900;
-      line-height: 1;
-    }
-
-    .stat-label {
-      display: block;
-      margin-top: 12px;
-      color: var(--white-60);
-      font-size: 14px;
-    }
-
-    .section-block {
-      padding: 120px 0;
-      background: var(--primary-dark);
-      content-visibility: auto;
-      contain-intrinsic-size: 900px;
-    }
-
-    .section-block.alt {
-      background: var(--secondary-dark);
-    }
-
-    .section-header {
-      max-width: 760px;
-      margin: 0 auto 52px;
-      text-align: center;
-    }
-
-    .section-header h2,
-    .showcase-copy h2,
-    .contact-copy h2 {
-      color: var(--white);
-      font-family: "Playfair Display", serif;
-      font-size: 64px;
-      font-weight: 900;
-      line-height: 1.05;
-    }
-
-    .section-header p,
-    .showcase-copy p,
-    .contact-copy p {
-      margin-top: 18px;
-      color: var(--white-60);
-      font-size: 16px;
-    }
-
-    .filters {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 12px;
-      margin-bottom: 42px;
-    }
-
-    .filter-btn {
-      min-height: 44px;
-      padding: 12px 24px;
-      border: 1px solid var(--white);
-      background: transparent;
-      color: var(--white);
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
-    }
-
-    .filter-btn.active,
-    .filter-btn:hover {
-      border-color: var(--gold);
-      background: var(--gold);
-      color: var(--primary-dark);
-      transform: translateY(-2px);
-    }
-
-    .property-grid,
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 26px;
-      align-items: stretch;
-    }
-
-    .property-card,
-    .service-card,
-    .testimonial-card,
-    .booking-form {
-      min-width: 0;
-      border: 1px solid var(--border);
-      background: var(--card-bg);
-      backdrop-filter: blur(6px);
-      transform: translateZ(0);
-      will-change: transform;
-      transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
-    }
-
-    .property-card:hover,
-    .service-card:hover,
-    .testimonial-card:hover {
-      transform: translateY(-12px);
-      border-color: var(--gold);
-      box-shadow: 0 24px 60px rgba(201,168,76,0.16);
-    }
-
-    .property-image {
-      position: relative;
-      min-height: 250px;
-      overflow: hidden;
-      background:
-        linear-gradient(135deg, rgba(201,168,76,0.32), rgba(10,10,15,0.68)),
-        repeating-linear-gradient(90deg, rgba(255,255,255,0.08) 0 1px, transparent 1px 42px),
-        linear-gradient(160deg, #1f1d24, #0a0a0f);
-    }
-
-    .property-image::before,
-    .property-image::after {
-      content: "";
-      position: absolute;
-      background: rgba(232,213,163,0.16);
-      border: 1px solid rgba(232,213,163,0.18);
-    }
-
-    .property-image::before {
-      right: 18%;
-      bottom: 0;
-      width: 24%;
-      height: 76%;
-    }
-
-    .property-image::after {
-      right: 42%;
-      bottom: 0;
-      width: 18%;
-      height: 58%;
-    }
-
-    .badge,
-    .price-tag {
-      position: absolute;
-      z-index: 2;
-      top: 18px;
-      padding: 9px 12px;
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 1.2px;
-    }
-
-    .badge {
-      left: 18px;
-      color: var(--primary-dark);
-      background: var(--gold);
-    }
-
-    .price-tag {
-      right: 18px;
-      color: var(--primary-dark);
-      background: var(--white);
-    }
-
-    .property-content {
-      padding: 24px;
-    }
-
-    .property-content h3,
-    .service-card h3 {
-      margin-bottom: 8px;
-      color: var(--white);
-      font-family: "Playfair Display", serif;
-      font-size: 22px;
-      font-weight: 700;
-    }
-
-    .location,
-    .details,
-    .service-card p {
-      color: var(--white-60);
-      font-size: 14px;
-    }
-
-    .details {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin: 16px 0 20px;
-      font-size: 13px;
-    }
-
-    .card-divider {
-      height: 1px;
-      margin-bottom: 18px;
-      background: var(--white-10);
-    }
-
-    .agent-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    .agent {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--white);
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    .avatar {
-      display: grid;
-      width: 36px;
-      height: 36px;
-      place-items: center;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--gold), var(--gold-light));
-      color: var(--primary-dark);
-      font-weight: 900;
-    }
-
-    .details-link,
-    .learn-link {
-      color: var(--gold);
-      font-size: 13px;
-      font-weight: 700;
-      white-space: nowrap;
-    }
-
-    .showcase {
-      min-height: 700px;
-      display: grid;
-      align-items: center;
-      background: var(--secondary-dark);
-    }
-
-    .showcase-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 52px;
-      align-items: center;
-    }
-
-    .showcase-copy h2,
-    .contact-copy h2 {
-      font-size: 52px;
-    }
-
-    .feature-list {
-      display: grid;
-      gap: 14px;
-      margin: 28px 0 34px;
-      list-style: none;
-      color: var(--white-60);
-    }
-
-    .feature-list i {
-      margin-right: 10px;
-      color: var(--gold);
-    }
-
-    .building-stage {
-      position: relative;
-      height: 560px;
-      border: 1px solid var(--border);
-      background: radial-gradient(circle at 50% 80%, rgba(201,168,76,0.2), transparent 38%), rgba(255,255,255,0.02);
-      overflow: hidden;
-      contain: layout paint;
-    }
-
-    #buildingCanvas {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      transform: translateZ(0);
-    }
-
-    .service-card {
-      min-height: 290px;
-      padding: 34px;
-      overflow: hidden;
-    }
-
-    .service-card i {
-      margin-bottom: 24px;
-      color: var(--gold);
-      font-size: 42px;
-    }
-
-    .service-card .learn-link {
-      display: inline-block;
-      margin-top: 24px;
-    }
-
-    .service-card h3,
-    .service-card p {
-      overflow-wrap: anywhere;
-    }
-
-    .testimonial-window {
-      overflow: hidden;
-      padding: 2px 0 8px;
-    }
-
-    .testimonial-track {
-      display: flex;
-      gap: 27px;
-      will-change: transform;
-      transition: transform 0.55s ease;
-    }
-
-    .testimonial-card {
-      flex: 0 0 calc((100% - 54px) / 3);
-      min-height: 370px;
-      padding: 32px;
-      overflow: hidden;
-    }
-
-    .stars {
-      margin-bottom: 18px;
-      color: var(--gold);
-      letter-spacing: 2px;
-    }
-
-    .quote {
-      color: var(--white);
-      font-family: "Playfair Display", serif;
-      font-size: 18px;
-      font-style: italic;
-      line-height: 1.7;
-    }
-
-    .client {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-top: 28px;
-    }
-
-    .client strong {
-      display: block;
-      color: var(--white);
-      font-size: 14px;
-    }
-
-    .client span {
-      color: var(--white-60);
-      font-size: 13px;
-    }
-
-    .carousel-dots {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 32px;
-    }
-
-    .dot-btn {
-      width: 10px;
-      height: 10px;
-      border: 1px solid var(--gold);
-      border-radius: 50%;
-      background: transparent;
-      transition: background 0.3s ease, transform 0.3s ease;
-    }
-
-    .dot-btn.active {
-      background: var(--gold);
-      transform: scale(1.3);
-    }
-
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 0.9fr 1.1fr;
-      gap: 58px;
-      align-items: start;
-    }
-
-    .contact-details {
-      display: grid;
-      gap: 18px;
-      margin-top: 32px;
-      color: var(--white-60);
-      list-style: none;
-    }
-
-    .contact-details i {
-      width: 24px;
-      color: var(--gold);
-    }
-
-    .social-row {
-      display: flex;
-      gap: 14px;
-      margin-top: 34px;
-    }
-
-    .social-row a {
-      display: grid;
-      width: 42px;
-      height: 42px;
-      place-items: center;
-      border: 1px solid var(--border);
-      color: var(--gold);
-      transition: transform 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-    }
-
-    .social-row a:hover {
-      transform: scale(1.12);
-      border-color: var(--gold);
-      color: var(--gold-light);
-      box-shadow: 0 0 24px var(--gold-glow);
-    }
-
-    .booking-form {
-      display: grid;
-      gap: 18px;
-      padding: 36px;
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 18px;
-    }
-
-    .booking-form input,
-    .booking-form select,
-    .booking-form textarea,
-    .newsletter-form input {
-      width: 100%;
-      padding: 16px 20px;
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 0;
-      background: rgba(255,255,255,0.05);
-      color: var(--white);
-      outline: none;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .booking-form select option {
-      color: var(--primary-dark);
-    }
-
-    .booking-form input::placeholder,
-    .booking-form textarea::placeholder,
-    .newsletter-form input::placeholder {
-      color: rgba(255,255,255,0.4);
-    }
-
-    .booking-form input:focus,
-    .booking-form select:focus,
-    .booking-form textarea:focus,
-    .newsletter-form input:focus {
-      border-color: var(--gold);
-      box-shadow: 0 0 24px var(--gold-glow);
-    }
-
-    .form-message {
-      min-height: 24px;
-      color: var(--gold);
-      font-weight: 700;
-    }
-
-    .spinner {
-      display: none;
-      width: 18px;
-      height: 18px;
-      margin-right: 10px;
-      border: 2px solid rgba(10,10,15,0.25);
-      border-top-color: var(--primary-dark);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-
-    .booking-form.loading .spinner {
-      display: inline-block;
-    }
-
-    .footer {
-      padding: 80px 0 40px;
-      background: var(--secondary-dark);
-      border-top: 1px solid var(--border);
-    }
-
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr 0.8fr 1.1fr;
-      gap: 44px;
-      margin-bottom: 50px;
-    }
-
-    .footer-logo {
-      margin-bottom: 18px;
-      color: var(--gold);
-      font-family: "Playfair Display", serif;
-      font-size: 26px;
-      font-weight: 900;
-    }
-
-    .footer p,
-    .footer a,
-    .footer li {
-      color: var(--white-60);
-      font-size: 14px;
-    }
-
-    .footer h3 {
-      margin-bottom: 18px;
-      color: var(--white);
-      font-family: "Playfair Display", serif;
-      font-size: 22px;
-    }
-
-    .footer ul {
-      display: grid;
-      gap: 10px;
-      list-style: none;
-    }
-
-    .footer a:hover {
-      color: var(--gold);
-    }
-
-    .newsletter-form {
-      display: flex;
-      margin: 14px 0 10px;
-    }
-
-    .newsletter-form input {
-      border-right: 0;
-    }
-
-    .newsletter-form button {
-      min-width: 52px;
-      border: 1px solid var(--gold);
-      background: var(--gold);
-      color: var(--primary-dark);
-      font-size: 16px;
-    }
-
-    .footer-bottom {
-      display: flex;
-      justify-content: space-between;
-      gap: 24px;
-      padding-top: 28px;
-      border-top: 1px solid var(--border);
-    }
-
-    .footer-bottom div {
-      display: flex;
-      gap: 18px;
-    }
-
-    .whatsapp {
-      position: fixed;
-      right: 22px;
-      bottom: 22px;
-      z-index: 900;
-      display: grid;
-      width: 56px;
-      height: 56px;
-      place-items: center;
-      border-radius: 50%;
-      background: #25d366;
-      color: var(--white);
-      font-size: 26px;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.4s ease, transform 0.4s ease;
-    }
-
-    .whatsapp.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .whatsapp::before {
-      content: "";
-      position: absolute;
-      inset: -8px;
-      border: 1px solid var(--gold);
-      border-radius: 50%;
-      animation: pulseRing 1.8s infinite;
-    }
-
-    .whatsapp-tooltip {
-      position: absolute;
-      right: 68px;
-      width: max-content;
-      padding: 8px 12px;
-      background: var(--secondary-dark);
-      border: 1px solid var(--border);
-      color: var(--white);
-      font-size: 12px;
-      opacity: 0;
-      transform: translateX(8px);
-      transition: opacity 0.25s ease, transform 0.25s ease;
-    }
-
-    .whatsapp:hover .whatsapp-tooltip {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    /* ===== Property Detail Overlay (merged from property-details.html) ===== */
-    .detail-view {
-      position: fixed;
-      inset: 0;
-      z-index: 1500;
-      overflow-y: auto;
-      background: var(--primary-dark);
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.4s ease, visibility 0.4s ease;
-    }
-
-    body.detail-open {
-      overflow: hidden;
-    }
-
-    body.detail-open .detail-view {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .detail-view img,
-    .detail-view iframe,
-    .detail-view video {
-      display: block;
-      width: 100%;
-    }
-
-    .detail-nav {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      background: rgba(10,10,15,0.92);
-      border-bottom: 1px solid var(--border);
-      backdrop-filter: blur(10px);
-    }
-
-    .detail-nav-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      min-height: 78px;
-      gap: 20px;
-    }
-
-    .detail-back {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 18px;
-      border: 1px solid var(--border);
-      background: var(--glass);
-      color: var(--gold);
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      transition: border-color 0.3s ease, background 0.3s ease;
-    }
-
-    .detail-back:hover {
-      border-color: var(--gold);
-      background: rgba(201,168,76,0.1);
-    }
-
-    .detail-hero {
-      padding: 90px 0 70px;
-      background:
-        linear-gradient(180deg, rgba(10,10,15,0.44), var(--primary-dark)),
-        var(--detail-hero-image, none);
-      background-position: center;
-      background-size: cover;
-    }
-
-    .detail-label {
-      display: inline-block;
+    .section-title {
+      font-size: clamp(30px, 4.5vw, 50px); font-weight: 700; color: var(--text);
       margin-bottom: 16px;
-      color: var(--gold);
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: 4px;
-      text-transform: uppercase;
+    }
+    .section-sub { font-size: clamp(16px, 2vw, 18px); color: var(--text-soft); max-width: 600px; }
+    .section-head { max-width: 720px; margin: 0 auto 60px; text-align: center; }
+    .section-head .section-sub { margin: 0 auto; }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 16px;
+      padding: 16px 32px; border-radius: 100px; cursor: pointer; border: none;
+      transition: transform .3s var(--ease), box-shadow .3s var(--ease), background .3s;
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--cta), var(--cta-dark));
+      color: #fff; box-shadow: 0 12px 28px rgba(34, 197, 94, 0.34);
+    }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 18px 38px rgba(34, 197, 94, 0.45); }
+    .btn-ghost { background: var(--white); color: var(--primary); box-shadow: var(--shadow-sm); }
+    .btn-ghost:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+    .btn-light { background: rgba(255,255,255,0.15); color: #fff; backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,0.3); }
+    .btn-light:hover { background: rgba(255,255,255,0.28); transform: translateY(-3px); }
+    .btn-block { width: 100%; }
+
+    /* ===== NAV ===== */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      transition: background .4s, box-shadow .4s, padding .4s;
+      padding: 18px 0;
+    }
+    header.scrolled { background: rgba(255,255,255,0.85); backdrop-filter: blur(16px); box-shadow: var(--shadow-sm); padding: 12px 0; }
+    .nav { display: flex; align-items: center; justify-content: space-between; }
+    .logo { display: flex; align-items: center; gap: 10px; font-size: 22px; font-weight: 800; color: var(--text); }
+    .logo-mark {
+      width: 38px; height: 38px; border-radius: 11px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: grid; place-items: center; color: #fff; font-size: 20px;
+      box-shadow: 0 6px 16px rgba(8,145,178,0.35);
+    }
+    .nav-links { display: flex; align-items: center; gap: 34px; }
+    .nav-links a { font-weight: 500; font-size: 15px; color: var(--text-soft); transition: color .25s; position: relative; }
+    .nav-links a:hover { color: var(--primary); }
+    .nav-cta { display: flex; align-items: center; gap: 16px; }
+    .nav-phone { font-weight: 600; color: var(--text); font-size: 15px; display: flex; align-items: center; gap: 8px; }
+    .nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; }
+    .nav-toggle span { width: 24px; height: 2px; background: var(--text); border-radius: 2px; transition: .3s; }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative; padding: 160px 0 100px; overflow: hidden;
+      background:
+        radial-gradient(1100px 600px at 78% -10%, rgba(34, 211, 238, 0.22), transparent 60%),
+        radial-gradient(900px 600px at 10% 110%, rgba(34, 197, 94, 0.12), transparent 55%),
+        linear-gradient(180deg, var(--bg) 0%, var(--white) 100%);
+    }
+    .hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 60px; align-items: center; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 10px; background: var(--white);
+      padding: 8px 16px 8px 8px; border-radius: 100px; box-shadow: var(--shadow-sm);
+      margin-bottom: 26px; font-size: 14px; font-weight: 600; color: var(--text);
+    }
+    .hero-badge .stars { color: #f59e0b; letter-spacing: 1px; }
+    .hero-badge .pill { background: var(--bg); color: var(--primary); border-radius: 100px; padding: 3px 10px; font-size: 12px; }
+    .hero h1 { font-size: clamp(38px, 6vw, 68px); font-weight: 800; color: var(--text); margin-bottom: 22px; }
+    .hero h1 .hl { position: relative; color: var(--primary); white-space: nowrap; }
+    .hero h1 .hl::after {
+      content: ""; position: absolute; left: 0; right: 0; bottom: 6px; height: 14px;
+      background: rgba(34, 197, 94, 0.25); z-index: -1; border-radius: 4px;
+    }
+    .hero p.lead { font-size: clamp(17px, 2.2vw, 20px); color: var(--text-soft); max-width: 520px; margin-bottom: 34px; }
+    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 38px; }
+    .hero-trust { display: flex; gap: 28px; flex-wrap: wrap; }
+    .hero-trust .t { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; color: var(--text-soft); }
+    .hero-trust .t .ic { width: 32px; height: 32px; border-radius: 9px; background: var(--bg); display: grid; place-items: center; color: var(--primary); font-size: 16px; }
+
+    /* hero visual */
+    .hero-visual { position: relative; }
+    .hero-card-main {
+      position: relative; border-radius: var(--radius-lg); overflow: hidden;
+      box-shadow: var(--shadow-lg); aspect-ratio: 4/4.4;
+      background: linear-gradient(160deg, #0891b2, #22d3ee 60%, #67e8f9);
+    }
+    .hero-card-main::before {
+      content: ""; position: absolute; inset: 0;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(255,255,255,0.35), transparent 40%),
+        radial-gradient(circle at 80% 75%, rgba(255,255,255,0.18), transparent 45%);
+    }
+    .hero-card-main .bubbles { position: absolute; inset: 0; overflow: hidden; }
+    .bubble { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.22); border: 1px solid rgba(255,255,255,0.4); animation: floatUp linear infinite; }
+    @keyframes floatUp {
+      0% { transform: translateY(40px) scale(0.8); opacity: 0; }
+      20% { opacity: 1; }
+      100% { transform: translateY(-460px) scale(1.1); opacity: 0; }
+    }
+    .hero-card-inner {
+      position: absolute; inset: 0; display: flex; flex-direction: column;
+      justify-content: flex-end; padding: 30px; color: #fff; z-index: 2;
+    }
+    .hero-card-inner .big-emoji { font-size: 64px; position: absolute; top: 30px; left: 30px; filter: drop-shadow(0 8px 20px rgba(0,0,0,0.2)); }
+    .hero-card-inner h3 { font-size: 26px; font-weight: 700; margin-bottom: 6px; }
+    .hero-card-inner p { font-size: 15px; opacity: 0.92; }
+
+    .float-card {
+      position: absolute; background: var(--white); border-radius: 16px;
+      box-shadow: var(--shadow-md); padding: 16px 18px; display: flex; align-items: center; gap: 12px;
+      z-index: 3; animation: bob 4s ease-in-out infinite;
+    }
+    @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+    .float-card .fc-ic { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; font-size: 22px; flex-shrink: 0; }
+    .float-card .fc-num { font-family: 'Poppins'; font-weight: 700; font-size: 18px; color: var(--text); }
+    .float-card .fc-lbl { font-size: 12px; color: var(--muted); }
+    .fc-1 { top: 40px; right: -26px; animation-delay: .2s; }
+    .fc-1 .fc-ic { background: #dcfce7; color: var(--cta-dark); }
+    .fc-2 { bottom: 56px; left: -34px; animation-delay: 1.4s; }
+    .fc-2 .fc-ic { background: #cffafe; color: var(--primary); }
+
+    /* ===== LOGOS / TRUST BAR ===== */
+    .trustbar { padding: 40px 0; border-bottom: 1px solid var(--line); }
+    .trustbar p { text-align: center; font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 26px; }
+    .logos { display: flex; align-items: center; justify-content: center; gap: clamp(28px, 6vw, 70px); flex-wrap: wrap; opacity: 0.7; }
+    .logos span { font-family: 'Poppins'; font-weight: 700; font-size: clamp(17px, 2.5vw, 22px); color: var(--text-soft); display: flex; align-items: center; gap: 8px; }
+
+    /* ===== STATS ===== */
+    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+    .stat { text-align: center; padding: 14px; }
+    .stat-num { font-size: clamp(34px, 4.5vw, 52px); font-weight: 800; color: var(--primary); }
+    .stat-lbl { font-size: 15px; color: var(--text-soft); font-weight: 500; margin-top: 4px; }
+
+    /* ===== SERVICES ===== */
+    .services { background: linear-gradient(180deg, var(--white), var(--bg-soft)); }
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .service-card {
+      background: var(--white); border: 1px solid var(--line); border-radius: var(--radius);
+      padding: 34px 30px; transition: transform .4s var(--ease), box-shadow .4s var(--ease), border-color .4s;
+      position: relative; overflow: hidden;
+    }
+    .service-card::after {
+      content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary)); transform: scaleX(0);
+      transform-origin: left; transition: transform .4s var(--ease);
+    }
+    .service-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-md); border-color: transparent; }
+    .service-card:hover::after { transform: scaleX(1); }
+    .service-ic {
+      width: 62px; height: 62px; border-radius: 16px; display: grid; place-items: center;
+      font-size: 30px; margin-bottom: 22px;
+      background: linear-gradient(135deg, var(--bg), #cffafe);
+    }
+    .service-card h3 { font-size: 21px; font-weight: 600; margin-bottom: 10px; }
+    .service-card p { color: var(--text-soft); font-size: 15px; margin-bottom: 18px; }
+    .service-card .feat { font-size: 14px; color: var(--text-soft); display: flex; align-items: center; gap: 9px; margin-bottom: 8px; }
+    .service-card .feat .chk { color: var(--cta); font-weight: 700; }
+    .service-price { font-family: 'Poppins'; font-weight: 600; color: var(--primary); font-size: 15px; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); }
+    .service-price b { font-size: 22px; font-weight: 700; }
+
+    /* ===== WHY / FEATURES ===== */
+    .why { background: var(--bg-soft); }
+    .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+    .why-visual {
+      border-radius: var(--radius-lg); aspect-ratio: 1/1; position: relative; overflow: hidden;
+      background: linear-gradient(160deg, #0e7490, #0891b2 55%, #22d3ee); box-shadow: var(--shadow-lg);
+      display: grid; place-items: center;
+    }
+    .why-visual .ring { position: absolute; border: 2px solid rgba(255,255,255,0.18); border-radius: 50%; }
+    .why-visual .r1 { width: 80%; height: 80%; }
+    .why-visual .r2 { width: 55%; height: 55%; border-color: rgba(255,255,255,0.28); }
+    .why-visual .center-emoji { font-size: 120px; z-index: 2; animation: spinSlow 18s linear infinite; }
+    @keyframes spinSlow { to { transform: rotate(360deg); } }
+    .why-feature { display: flex; gap: 18px; margin-bottom: 28px; }
+    .why-feature .wf-ic { width: 52px; height: 52px; border-radius: 14px; flex-shrink: 0; display: grid; place-items: center; font-size: 24px; background: var(--white); box-shadow: var(--shadow-sm); }
+    .why-feature h3 { font-size: 19px; font-weight: 600; margin-bottom: 4px; }
+    .why-feature p { color: var(--text-soft); font-size: 15px; }
+
+    /* ===== PROCESS ===== */
+    .process-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; position: relative; }
+    .step { text-align: center; position: relative; padding: 0 8px; }
+    .step-num {
+      width: 70px; height: 70px; border-radius: 20px; margin: 0 auto 22px;
+      display: grid; place-items: center; font-family: 'Poppins'; font-weight: 700; font-size: 26px; color: #fff;
+      background: linear-gradient(135deg, var(--primary), var(--secondary)); box-shadow: 0 12px 26px rgba(8,145,178,0.3);
+      position: relative; z-index: 2;
+    }
+    .step h3 { font-size: 19px; font-weight: 600; margin-bottom: 8px; }
+    .step p { color: var(--text-soft); font-size: 15px; }
+    .process-grid::before {
+      content: ""; position: absolute; top: 35px; left: 12.5%; right: 12.5%; height: 2px;
+      background: repeating-linear-gradient(90deg, var(--line) 0 8px, transparent 8px 16px); z-index: 1;
     }
 
-    .detail-view h1,
-    .detail-view h2,
-    .detail-view h3 {
-      font-family: "Playfair Display", serif;
-      line-height: 1.05;
-      color: var(--white);
+    /* ===== PRICING ===== */
+    .pricing { background: linear-gradient(180deg, var(--bg-soft), var(--white)); }
+    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; align-items: stretch; }
+    .price-card {
+      background: var(--white); border: 1.5px solid var(--line); border-radius: var(--radius-lg);
+      padding: 38px 32px; display: flex; flex-direction: column; transition: transform .4s var(--ease), box-shadow .4s var(--ease);
     }
-
-    .detail-hero h1 {
-      max-width: 820px;
-      font-size: 76px;
-      font-weight: 900;
+    .price-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); }
+    .price-card.featured {
+      background: linear-gradient(165deg, var(--primary-dark), var(--primary)); color: #fff;
+      border-color: transparent; box-shadow: var(--shadow-lg); transform: scale(1.04);
+      position: relative; z-index: 2;
     }
+    .price-card.featured:hover { transform: scale(1.04) translateY(-6px); }
+    .price-tag-pop { position: absolute; top: 20px; right: 24px; background: var(--cta); color: #fff; font-family: 'Poppins'; font-weight: 600; font-size: 12px; padding: 6px 14px; border-radius: 100px; letter-spacing: 0.04em; }
+    .price-name { font-family: 'Poppins'; font-weight: 600; font-size: 20px; margin-bottom: 6px; }
+    .price-desc { font-size: 14px; opacity: 0.85; margin-bottom: 22px; }
+    .price-card.featured .price-desc { color: rgba(255,255,255,0.85); }
+    .price-amount { font-size: 50px; font-weight: 800; color: var(--primary); display: flex; align-items: baseline; gap: 4px; }
+    .price-card.featured .price-amount { color: #fff; }
+    .price-amount span { font-size: 16px; font-weight: 500; color: var(--muted); }
+    .price-card.featured .price-amount span { color: rgba(255,255,255,0.8); }
+    .price-list { margin: 24px 0 28px; flex-grow: 1; }
+    .price-list li { display: flex; align-items: center; gap: 11px; padding: 9px 0; font-size: 15px; color: var(--text-soft); }
+    .price-card.featured .price-list li { color: rgba(255,255,255,0.92); }
+    .price-list .chk { width: 21px; height: 21px; border-radius: 50%; background: #dcfce7; color: var(--cta-dark); display: grid; place-items: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+    .price-card.featured .price-list .chk { background: rgba(255,255,255,0.22); color: #fff; }
 
-    .detail-hero p {
-      max-width: 680px;
-      margin-top: 20px;
-      color: var(--white-60);
-      font-size: 18px;
+    /* ===== TESTIMONIALS ===== */
+    .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .testi-card { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); padding: 30px; transition: transform .4s var(--ease), box-shadow .4s; }
+    .testi-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); }
+    .testi-stars { color: #f59e0b; font-size: 17px; letter-spacing: 2px; margin-bottom: 16px; }
+    .testi-card p { font-size: 16px; color: var(--text); margin-bottom: 22px; line-height: 1.7; }
+    .testi-who { display: flex; align-items: center; gap: 13px; }
+    .testi-av { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; font-family: 'Poppins'; font-weight: 700; color: #fff; font-size: 18px; }
+    .testi-who h4 { font-size: 15px; font-weight: 600; }
+    .testi-who span { font-size: 13px; color: var(--muted); }
+
+    /* ===== FAQ ===== */
+    .faq { background: var(--bg-soft); }
+    .faq-wrap { max-width: 800px; margin: 0 auto; }
+    .faq-item { background: var(--white); border: 1px solid var(--line); border-radius: 16px; margin-bottom: 14px; overflow: hidden; transition: box-shadow .3s; }
+    .faq-item.open { box-shadow: var(--shadow-sm); }
+    .faq-q { width: 100%; text-align: left; background: none; border: none; cursor: pointer; padding: 22px 26px; font-family: 'Poppins'; font-weight: 600; font-size: 17px; color: var(--text); display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+    .faq-q .ico { width: 30px; height: 30px; border-radius: 50%; background: var(--bg); color: var(--primary); display: grid; place-items: center; font-size: 18px; flex-shrink: 0; transition: transform .3s, background .3s; }
+    .faq-item.open .faq-q .ico { transform: rotate(45deg); background: var(--primary); color: #fff; }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height .4s var(--ease); }
+    .faq-a p { padding: 0 26px 24px; color: var(--text-soft); font-size: 15px; }
+
+    /* ===== CTA / BOOKING ===== */
+    .cta-final { background: linear-gradient(150deg, var(--primary-dark) 0%, var(--primary) 50%, var(--secondary) 130%); position: relative; overflow: hidden; }
+    .cta-final::before { content: ""; position: absolute; inset: 0; background: radial-gradient(700px 400px at 85% 10%, rgba(255,255,255,0.16), transparent 60%); }
+    .cta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; position: relative; z-index: 2; }
+    .cta-copy .eyebrow { background: rgba(255,255,255,0.15); color: #fff; }
+    .cta-copy .eyebrow::before { background: var(--cta); }
+    .cta-copy h2 { font-size: clamp(30px, 4.5vw, 48px); font-weight: 800; color: #fff; margin-bottom: 18px; }
+    .cta-copy p { font-size: 18px; color: rgba(255,255,255,0.9); margin-bottom: 30px; max-width: 480px; }
+    .cta-perks { display: flex; flex-direction: column; gap: 14px; }
+    .cta-perks .p { display: flex; align-items: center; gap: 12px; color: #fff; font-weight: 500; }
+    .cta-perks .p .ic { width: 28px; height: 28px; border-radius: 50%; background: rgba(255,255,255,0.2); display: grid; place-items: center; font-size: 14px; }
+
+    .booking { background: var(--white); border-radius: var(--radius-lg); padding: 38px; box-shadow: var(--shadow-lg); }
+    .booking h3 { font-size: 24px; font-weight: 700; margin-bottom: 6px; }
+    .booking .sub { color: var(--text-soft); font-size: 15px; margin-bottom: 26px; }
+    .field { margin-bottom: 18px; }
+    .field label { display: block; font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 7px; }
+    .field input, .field select {
+      width: 100%; padding: 14px 16px; border: 1.5px solid var(--line); border-radius: 12px;
+      font-family: inherit; font-size: 15px; color: var(--text); background: var(--bg-soft);
+      transition: border-color .25s, box-shadow .25s; outline: none;
     }
+    .field input:focus, .field select:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(8,145,178,0.12); background: #fff; }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-note { text-align: center; font-size: 13px; color: var(--muted); margin-top: 14px; }
+    .form-success { display: none; text-align: center; padding: 30px 10px; }
+    .form-success.show { display: block; }
+    .form-success .big { font-size: 54px; margin-bottom: 12px; }
+    .form-success h3 { color: var(--cta-dark); }
 
-    .detail-summary {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      margin-top: 34px;
+    /* ===== FOOTER ===== */
+    footer { background: #0c3a47; color: rgba(255,255,255,0.75); padding: 70px 0 30px; }
+    .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 50px; }
+    footer .logo { color: #fff; margin-bottom: 16px; }
+    footer .f-about { font-size: 15px; max-width: 300px; margin-bottom: 20px; }
+    .f-social { display: flex; gap: 12px; }
+    .f-social a { width: 40px; height: 40px; border-radius: 11px; background: rgba(255,255,255,0.08); display: grid; place-items: center; font-size: 17px; transition: background .3s, transform .3s; }
+    .f-social a:hover { background: var(--primary); transform: translateY(-3px); }
+    footer h4 { color: #fff; font-family: 'Poppins'; font-weight: 600; font-size: 16px; margin-bottom: 18px; }
+    footer ul li { margin-bottom: 11px; }
+    footer ul li a { font-size: 15px; transition: color .25s; }
+    footer ul li a:hover { color: var(--secondary); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 26px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 14px; }
+
+    /* ===== REVEAL ANIMATION ===== */
+    .reveal { opacity: 0; transform: translateY(34px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
+    .reveal.in { opacity: 1; transform: none; }
+    .reveal[data-delay="1"] { transition-delay: .1s; }
+    .reveal[data-delay="2"] { transition-delay: .2s; }
+    .reveal[data-delay="3"] { transition-delay: .3s; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 980px) {
+      .hero-grid, .why-grid, .cta-grid { grid-template-columns: 1fr; gap: 48px; }
+      .hero-visual { max-width: 440px; margin: 0 auto; width: 100%; }
+      .services-grid, .pricing-grid, .testi-grid { grid-template-columns: 1fr 1fr; }
+      .price-card.featured { transform: none; }
+      .price-card.featured:hover { transform: translateY(-6px); }
+      .process-grid { grid-template-columns: 1fr 1fr; gap: 36px 24px; }
+      .process-grid::before { display: none; }
+      .stats-row { grid-template-columns: 1fr 1fr; gap: 32px 16px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
     }
-
-    .detail-summary span {
-      padding: 12px 16px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.06);
-      color: var(--white);
-      font-weight: 700;
-    }
-
-    .detail-section {
-      padding: 90px 0;
-    }
-
-    .detail-section.alt {
-      background: var(--secondary-dark);
-    }
-
-    .detail-grid-two {
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      gap: 34px;
-      align-items: start;
-    }
-
-    .detail-panel {
-      border: 1px solid var(--border);
-      background: var(--card-bg);
-      backdrop-filter: blur(6px);
-    }
-
-    .detail-copy-panel {
-      padding: 34px;
-    }
-
-    .detail-copy-panel h2,
-    .detail-section-title {
-      margin-bottom: 18px;
-      font-size: 44px;
-    }
-
-    .detail-copy-panel p,
-    .detail-feature-list,
-    .detail-agent-card p {
-      color: var(--white-60);
-    }
-
-    .detail-feature-list {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-      margin-top: 26px;
-      list-style: none;
-    }
-
-    .detail-feature-list i {
-      margin-right: 10px;
-      color: var(--gold);
-    }
-
-    .detail-agent-card {
-      padding: 30px;
-    }
-
-    .detail-agent-top {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 20px;
-    }
-
-    .detail-avatar {
-      display: grid;
-      width: 58px;
-      height: 58px;
-      place-items: center;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--gold), var(--gold-light));
-      color: var(--primary-dark);
-      font-weight: 900;
-      font-size: 20px;
-    }
-
-    .detail-button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 54px;
-      margin-top: 22px;
-      padding: 15px 28px;
-      border: 1px solid var(--gold);
-      background: var(--gold);
-      color: var(--primary-dark);
-      font-size: 12px;
-      font-weight: 900;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
-    }
-
-    .detail-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 34px var(--gold-glow);
-    }
-
-    .detail-gallery {
-      display: grid;
-      grid-template-columns: 1.4fr 0.8fr 0.8fr;
-      gap: 16px;
-    }
-
-    .detail-gallery img {
-      height: 260px;
-      object-fit: cover;
-      border: 1px solid var(--border);
-      filter: saturate(0.9);
-    }
-
-    .detail-gallery img:first-child {
-      grid-row: span 2;
-      height: 536px;
-    }
-
-    .detail-media-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-    }
-
-    .detail-video-card {
-      overflow: hidden;
-      border: 1px solid var(--border);
-      background: var(--card-bg);
-    }
-
-    .detail-video-card video {
-      height: 300px;
-      object-fit: cover;
-      background: var(--secondary-dark);
-    }
-
-    .detail-video-card div {
-      padding: 22px;
-    }
-
-    .detail-video-card h3 {
-      margin-bottom: 8px;
-      font-size: 24px;
-    }
-
-    .detail-video-card p {
-      color: var(--white-60);
-      font-size: 14px;
-    }
-
-    .detail-virtual-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 30px;
-      align-items: center;
-    }
-
-    .detail-virtual-stage {
-      position: relative;
-      height: 520px;
-      border: 1px solid var(--border);
-      background: radial-gradient(circle at 50% 70%, rgba(201,168,76,0.22), transparent 45%), rgba(255,255,255,0.02);
-      overflow: hidden;
-      contain: layout paint;
-    }
-
-    #virtualCanvas {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      transform: translateZ(0);
-    }
-
-    .detail-map-wrap {
-      overflow: hidden;
-      border: 1px solid var(--border);
-    }
-
-    .detail-map-wrap iframe {
-      height: 430px;
-      border: 0;
-      filter: grayscale(1) invert(0.9) contrast(0.85);
-    }
-
-    .detail-footer {
-      padding: 44px 0;
-      background: var(--secondary-dark);
-      border-top: 1px solid var(--border);
-      color: var(--white-60);
-      text-align: center;
-    }
-
-    @media (max-width: 900px) {
-      .detail-hero h1 {
-        font-size: 50px;
+    @media (max-width: 760px) {
+      .nav-links, .nav-phone { display: none; }
+      .nav-toggle { display: flex; }
+      .nav-links.mobile-open {
+        display: flex; flex-direction: column; position: absolute; top: 100%; left: 16px; right: 16px;
+        background: #fff; padding: 24px; border-radius: 18px; box-shadow: var(--shadow-lg); gap: 18px; margin-top: 8px;
       }
-
-      .detail-grid-two,
-      .detail-media-grid,
-      .detail-virtual-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .detail-gallery {
-        grid-template-columns: 1fr;
-      }
-
-      .detail-gallery img,
-      .detail-gallery img:first-child {
-        height: 280px;
-        grid-row: auto;
-      }
-
-      .detail-feature-list {
-        grid-template-columns: 1fr;
-      }
-
-      .detail-virtual-stage {
-        height: 360px;
-      }
+      .services-grid, .pricing-grid, .testi-grid { grid-template-columns: 1fr; }
+      .fc-1 { right: 8px; } .fc-2 { left: 8px; }
+      .field-row { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .hero { padding-top: 130px; }
     }
-
-    @keyframes bounceArrow {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(8px); }
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    @keyframes pulseRing {
-      0% { opacity: 0.8; transform: scale(0.9); }
-      100% { opacity: 0; transform: scale(1.6); }
-    }
-
-    @media (max-width: 1024px) {
-      .nav-menu {
-        position: fixed;
-        inset: 0 0 0 auto;
-        width: min(420px, 100%);
-        flex-direction: column;
-        justify-content: center;
-        background: rgba(10,10,15,0.98);
-        border-left: 1px solid var(--border);
-        transform: translateX(100%);
-        transition: transform 0.35s ease;
-      }
-
-      .nav-menu.open {
-        transform: translateX(0);
-      }
-
-      .nav-links {
-        flex-direction: column;
-      }
-
-      .hamburger {
-        position: relative;
-        z-index: 1002;
-        display: block;
-      }
-
-      .property-grid,
-      .services-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .showcase-grid,
-      .contact-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .building-stage {
-        height: 480px;
-      }
-
-      .testimonial-card {
-        flex-basis: calc((100% - 27px) / 2);
-      }
-
-      .footer-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 767px) {
-      .container {
-        width: min(100% - 32px, 1180px);
-      }
-
-      .hero {
-        min-height: 680px;
-        background: radial-gradient(circle at 50% 32%, rgba(201,168,76,0.24), transparent 42%), var(--primary-dark);
-      }
-
-      #heroCanvas,
-      #buildingCanvas {
-        display: none;
-      }
-
-      .hero h1 {
-        font-size: 48px;
-      }
-
-      .hero p {
-        font-size: 16px;
-      }
-
-      .hero-actions {
-        flex-direction: column;
-      }
-
-      .hero-actions .gold-btn,
-      .hero-actions .ghost-btn {
-        width: 100%;
-      }
-
-      .section-block {
-        padding: 86px 0;
-      }
-
-      .section-header h2 {
-        font-size: 36px;
-      }
-
-      .showcase-copy h2,
-      .contact-copy h2 {
-        font-size: 36px;
-      }
-
-      .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 34px 0;
-      }
-
-      .stat-item:nth-child(2)::after {
-        display: none;
-      }
-
-      .stat-number {
-        font-size: 42px;
-      }
-
-      .property-grid,
-      .services-grid,
-      .form-row,
-      .footer-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .building-stage {
-        height: 320px;
-        background: radial-gradient(circle, rgba(201,168,76,0.22), transparent 60%), linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0));
-      }
-
-      .testimonial-card {
-        flex-basis: 100%;
-      }
-
-      .footer-bottom {
-        flex-direction: column;
-      }
-
-      .footer-bottom div {
-        flex-wrap: wrap;
-      }
+    @media (max-width: 460px) {
+      .stats-row, .process-grid, .footer-grid { grid-template-columns: 1fr 1fr; }
+      .hero-actions .btn { width: 100%; }
     }
   </style>
 </head>
 <body>
-  <div class="loader" aria-hidden="true">
-    <div class="loader-logo">LUXE ESTATE</div>
-  </div>
 
-  <header class="navbar">
-    <div class="container nav-inner">
-      <a class="logo" href="#home">LUXE ESTATE</a>
-      <nav class="nav-menu" aria-label="Main navigation">
-        <ul class="nav-links">
-          <li><a href="#properties">Properties</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#testimonials">Testimonials</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-        <a class="outline-btn magnetic" href="#contact">Book Viewing</a>
+  <!-- ===== HEADER ===== -->
+  <header id="header">
+    <div class="container nav">
+      <a href="#home" class="logo"><span class="logo-mark">✦</span>SparkleClean</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="#services">Services</a>
+        <a href="#why">Why Us</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#faq">FAQ</a>
       </nav>
-      <button class="hamburger" type="button" aria-label="Open menu" aria-expanded="false">
-        <i class="fa-solid fa-bars"></i>
-      </button>
+      <div class="nav-cta">
+        <a href="tel:+18005550199" class="nav-phone">📞 (800) 555-0199</a>
+        <a href="#book" class="btn btn-primary" style="padding:12px 24px;font-size:15px;">Book Now</a>
+        <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+      </div>
     </div>
   </header>
 
-  <main>
-    <section class="hero" id="home">
-      <canvas id="heroCanvas"></canvas>
-      <div class="hero-content">
-        <span class="section-label hero-label">Premium Real Estate</span>
-        <h1 aria-label="Find Your Dream Property Today">
-          <span class="hero-word">Find</span>
-          <span class="hero-word">Your</span>
-          <span class="hero-word">Dream</span><br>
-          <span class="hero-word">Property</span>
-          <span class="hero-word">Today</span>
-        </h1>
-        <p class="hero-subtitle">Exclusive properties in prime locations across the United States</p>
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="home">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <div class="hero-badge">
+          <span class="stars">★★★★★</span> Rated 4.9/5
+          <span class="pill">2,400+ reviews</span>
+        </div>
+        <h1>A Spotless Home,<br />Without <span class="hl">Lifting a Finger</span></h1>
+        <p class="lead">Premium, eco-friendly cleaning for busy homes and offices. Vetted pros, guaranteed sparkle, and your weekends back — booked in under 60 seconds.</p>
         <div class="hero-actions">
-          <a class="gold-btn magnetic" href="#properties">Explore Properties</a>
-          <a class="ghost-btn magnetic" href="#showcase">Watch Tour <i class="fa-solid fa-play" style="margin-left: 10px;"></i></a>
+          <a href="#book" class="btn btn-primary">Get a Free Quote →</a>
+          <a href="#pricing" class="btn btn-ghost">View Pricing</a>
+        </div>
+        <div class="hero-trust">
+          <div class="t"><span class="ic">🛡️</span> Insured & bonded</div>
+          <div class="t"><span class="ic">🌿</span> Eco-friendly products</div>
+          <div class="t"><span class="ic">↩️</span> 100% satisfaction</div>
         </div>
       </div>
-      <a class="scroll-indicator" href="#stats">
-        <i class="fa-solid fa-arrow-down"></i>
-        Scroll to Explore
-      </a>
-    </section>
 
-    <section class="stats" id="stats">
-      <div class="container stats-grid">
-        <div class="stat-item"><span class="stat-number" data-value="2500" data-suffix="+">0</span><span class="stat-label">Properties Sold</span></div>
-        <div class="stat-item"><span class="stat-number" data-value="15" data-suffix="+">0</span><span class="stat-label">Years Experience</span></div>
-        <div class="stat-item"><span class="stat-number" data-value="98" data-suffix="%">0</span><span class="stat-label">Client Satisfaction</span></div>
-        <div class="stat-item"><span class="stat-number" data-value="2.8" data-prefix="$" data-suffix="B">0</span><span class="stat-label">Total Property Value</span></div>
-      </div>
-    </section>
-
-    <section class="section-block" id="properties">
-      <div class="container">
-        <div class="section-header reveal-heading">
-          <span class="section-label">Featured Listings</span>
-          <h2>Exclusive Properties</h2>
-          <p>Hand-selected residences, investment assets, and commercial spaces in the most desirable American markets.</p>
+      <div class="hero-visual">
+        <div class="hero-card-main">
+          <div class="bubbles" id="bubbles"></div>
+          <span class="big-emoji">🧼</span>
+          <div class="hero-card-inner">
+            <h3>Move-out deep clean</h3>
+            <p>Completed in 3 hrs · Brooklyn, NY</p>
+          </div>
         </div>
-        <div class="filters">
-          <button class="filter-btn active" type="button" data-filter="all">All</button>
-          <button class="filter-btn" type="button" data-filter="sale">For Sale</button>
-          <button class="filter-btn" type="button" data-filter="rent">For Rent</button>
-          <button class="filter-btn" type="button" data-filter="luxury">Luxury</button>
-          <button class="filter-btn" type="button" data-filter="commercial">Commercial</button>
+        <div class="float-card fc-1">
+          <div class="fc-ic">✓</div>
+          <div><div class="fc-num">12,000+</div><div class="fc-lbl">cleans completed</div></div>
         </div>
-        <div class="property-grid">
-          <article class="property-card" data-category="sale luxury">
-            <div class="property-image"><span class="badge">FOR SALE</span><span class="price-tag">$4,200,000</span></div>
-            <div class="property-content">
-              <h3>The Grand Manhattan</h3>
-              <p class="location"><i class="fa-solid fa-location-dot"></i> New York, NY</p>
-              <div class="details"><span><i class="fa-solid fa-bed"></i> 5 Beds</span><span><i class="fa-solid fa-bath"></i> 4 Baths</span><span><i class="fa-solid fa-ruler-combined"></i> 4,100 sqft</span></div>
-              <div class="card-divider"></div>
-              <div class="agent-row"><div class="agent"><span class="avatar">J</span>James Richardson</div><a class="details-link" href="?property=manhattan" data-property="manhattan">View Details →</a></div>
-            </div>
-          </article>
-          <article class="property-card" data-category="sale luxury">
-            <div class="property-image"><span class="badge">FOR SALE</span><span class="price-tag">$6,800,000</span></div>
-            <div class="property-content">
-              <h3>Beverly Hills Estate</h3>
-              <p class="location"><i class="fa-solid fa-location-dot"></i> Los Angeles, CA</p>
-              <div class="details"><span><i class="fa-solid fa-bed"></i> 6 Beds</span><span><i class="fa-solid fa-bath"></i> 5 Baths</span><span><i class="fa-solid fa-ruler-combined"></i> 5,800 sqft</span></div>
-              <div class="card-divider"></div>
-              <div class="agent-row"><div class="agent"><span class="avatar">E</span>Elena Marquez</div><a class="details-link" href="?property=beverly" data-property="beverly">View Details →</a></div>
-            </div>
-          </article>
-          <article class="property-card" data-category="rent luxury">
-            <div class="property-image"><span class="badge">FOR RENT</span><span class="price-tag">$12,500/mo</span></div>
-            <div class="property-content">
-              <h3>Downtown Penthouse</h3>
-              <p class="location"><i class="fa-solid fa-location-dot"></i> Chicago, IL</p>
-              <div class="details"><span><i class="fa-solid fa-bed"></i> 3 Beds</span><span><i class="fa-solid fa-bath"></i> 2 Baths</span><span><i class="fa-solid fa-ruler-combined"></i> 2,100 sqft</span></div>
-              <div class="card-divider"></div>
-              <div class="agent-row"><div class="agent"><span class="avatar">M</span>Marcus Bell</div><a class="details-link" href="?property=penthouse" data-property="penthouse">View Details →</a></div>
-            </div>
-          </article>
-          <article class="property-card" data-category="sale luxury">
-            <div class="property-image"><span class="badge">FOR SALE</span><span class="price-tag">$3,100,000</span></div>
-            <div class="property-content">
-              <h3>Lakefront Villa</h3>
-              <p class="location"><i class="fa-solid fa-location-dot"></i> Miami, FL</p>
-              <div class="details"><span><i class="fa-solid fa-bed"></i> 4 Beds</span><span><i class="fa-solid fa-bath"></i> 3 Baths</span><span><i class="fa-solid fa-ruler-combined"></i> 3,600 sqft</span></div>
-              <div class="card-divider"></div>
-              <div class="agent-row"><div class="agent"><span class="avatar">S</span>Sofia Grant</div><a class="details-link" href="?property=lakefront" data-property="lakefront">View Details →</a></div>
-            </div>
-          </article>
-          <article class="property-card" data-category="sale commercial">
-            <div class="property-image"><span class="badge">FOR SALE</span><span class="price-tag">$8,900,000</span></div>
-            <div class="property-content">
-              <h3>Corporate Office Tower</h3>
-              <p class="location"><i class="fa-solid fa-location-dot"></i> Austin, TX</p>
-              <div class="details"><span><i class="fa-solid fa-building"></i> 20 Offices</span><span><i class="fa-solid fa-ruler-combined"></i> 8,200 sqft</span></div>
-              <div class="card-divider"></div>
-              <div class="agent-row"><div class="agent"><span class="avatar">D</span>Daniel Price</div><a class="details-link" href="?property=office" data-property="office">View Details →</a></div>
-            </div>
-          </article>
-          <article class="property-card" data-category="rent apartment">
-            <div class="property-image"><span class="badge">FOR RENT</span><span class="price-tag">$4,200/mo</span></div>
-            <div class="property-content">
-              <h3>Modern City Apartment</h3>
-              <p class="location"><i class="fa-solid fa-location-dot"></i> Seattle, WA</p>
-              <div class="details"><span><i class="fa-solid fa-bed"></i> 2 Beds</span><span><i class="fa-solid fa-bath"></i> 2 Baths</span><span><i class="fa-solid fa-ruler-combined"></i> 1,400 sqft</span></div>
-              <div class="card-divider"></div>
-              <div class="agent-row"><div class="agent"><span class="avatar">N</span>Nora Collins</div><a class="details-link" href="?property=seattle" data-property="seattle">View Details →</a></div>
-            </div>
-          </article>
+        <div class="float-card fc-2">
+          <div class="fc-ic">⚡</div>
+          <div><div class="fc-num">Same-day</div><div class="fc-lbl">booking available</div></div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="showcase" id="showcase">
-      <div class="container showcase-grid">
-        <div class="showcase-copy reveal-left" id="about">
-          <span class="section-label">Virtual Experience</span>
-          <h2>Explore Properties in 3D Space</h2>
-          <p>Move through premium listings with interactive 3D previews designed for buyers who want clarity before they step inside.</p>
-          <ul class="feature-list">
-            <li><i class="fa-solid fa-check"></i>Interactive 3D property tours</li>
-            <li><i class="fa-solid fa-check"></i>Real-time floor plan exploration</li>
-            <li><i class="fa-solid fa-check"></i>Virtual neighborhood walkthrough</li>
+  <!-- ===== TRUST BAR ===== -->
+  <div class="trustbar">
+    <div class="container">
+      <p>Trusted by leading homes & businesses</p>
+      <div class="logos">
+        <span>🏢 Westfield</span>
+        <span>🏨 Hartman Group</span>
+        <span>🏠 NestHomes</span>
+        <span>☕ BrewLab</span>
+        <span>🏦 Meridian</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== STATS ===== -->
+  <section class="section" style="padding-top:70px;padding-bottom:70px;">
+    <div class="container stats-row">
+      <div class="stat reveal"><div class="stat-num" data-count="12000" data-suffix="+">0</div><div class="stat-lbl">Cleans completed</div></div>
+      <div class="stat reveal" data-delay="1"><div class="stat-num" data-count="4.9" data-decimals="1">0</div><div class="stat-lbl">Average rating</div></div>
+      <div class="stat reveal" data-delay="2"><div class="stat-num" data-count="98" data-suffix="%">0</div><div class="stat-lbl">Would rebook</div></div>
+      <div class="stat reveal" data-delay="3"><div class="stat-num" data-count="60" data-suffix="s">0</div><div class="stat-lbl">To book online</div></div>
+    </div>
+  </section>
+
+  <!-- ===== SERVICES ===== -->
+  <section class="section services" id="services">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Our Services</span>
+        <h2 class="section-title">Cleaning for Every Corner of Life</h2>
+        <p class="section-sub">From a quick weekly refresh to a full move-out deep clean — choose exactly what you need.</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card reveal">
+          <div class="service-ic">🏠</div>
+          <h3>Residential Cleaning</h3>
+          <p>Recurring or one-time cleans that keep your home fresh, healthy, and guest-ready.</p>
+          <div class="feat"><span class="chk">✓</span> Kitchens & bathrooms</div>
+          <div class="feat"><span class="chk">✓</span> Dusting & vacuuming</div>
+          <div class="feat"><span class="chk">✓</span> Floors & surfaces</div>
+          <div class="service-price">From <b>$89</b> / visit</div>
+        </div>
+        <div class="service-card reveal" data-delay="1">
+          <div class="service-ic">🏢</div>
+          <h3>Office & Commercial</h3>
+          <p>Reliable after-hours cleaning that keeps your team healthy and your space impressive.</p>
+          <div class="feat"><span class="chk">✓</span> Workstations & desks</div>
+          <div class="feat"><span class="chk">✓</span> Restrooms & kitchens</div>
+          <div class="feat"><span class="chk">✓</span> Flexible scheduling</div>
+          <div class="service-price">From <b>$149</b> / visit</div>
+        </div>
+        <div class="service-card reveal" data-delay="2">
+          <div class="service-ic">✨</div>
+          <h3>Deep & Move-Out Clean</h3>
+          <p>Top-to-bottom detailing for spring cleans, move-ins, or getting your full deposit back.</p>
+          <div class="feat"><span class="chk">✓</span> Inside appliances & cabinets</div>
+          <div class="feat"><span class="chk">✓</span> Baseboards & vents</div>
+          <div class="feat"><span class="chk">✓</span> Window sills & detailing</div>
+          <div class="service-price">From <b>$199</b> / visit</div>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-ic">🛋️</div>
+          <h3>Carpet & Upholstery</h3>
+          <p>Steam-powered deep extraction that lifts stains, odors, and allergens from fibers.</p>
+          <div class="feat"><span class="chk">✓</span> Hot-water extraction</div>
+          <div class="feat"><span class="chk">✓</span> Pet stain & odor removal</div>
+          <div class="feat"><span class="chk">✓</span> Fast-dry process</div>
+          <div class="service-price">From <b>$119</b> / room</div>
+        </div>
+        <div class="service-card reveal" data-delay="1">
+          <div class="service-ic">🪟</div>
+          <h3>Window & Glass</h3>
+          <p>Streak-free interior and exterior windows that flood your space with light.</p>
+          <div class="feat"><span class="chk">✓</span> Interior & exterior panes</div>
+          <div class="feat"><span class="chk">✓</span> Tracks & frames</div>
+          <div class="feat"><span class="chk">✓</span> Screens included</div>
+          <div class="service-price">From <b>$99</b> / visit</div>
+        </div>
+        <div class="service-card reveal" data-delay="2">
+          <div class="service-ic">🧽</div>
+          <h3>Post-Construction</h3>
+          <p>Dust, debris, and residue removal that turns a finished build into a move-in-ready home.</p>
+          <div class="feat"><span class="chk">✓</span> Fine dust removal</div>
+          <div class="feat"><span class="chk">✓</span> Paint & adhesive cleanup</div>
+          <div class="feat"><span class="chk">✓</span> Full sanitization</div>
+          <div class="service-price">Custom <b>quote</b></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WHY US ===== -->
+  <section class="section why" id="why">
+    <div class="container why-grid">
+      <div class="why-visual reveal">
+        <div class="ring r1"></div>
+        <div class="ring r2"></div>
+        <span class="center-emoji">🌿</span>
+      </div>
+      <div class="why-copy">
+        <span class="eyebrow reveal">Why SparkleClean</span>
+        <h2 class="section-title reveal">The Difference You Can Actually See</h2>
+        <p class="section-sub reveal" style="margin-bottom:38px;">We obsess over the details others skip — so you come home to a space that feels brand new, every single time.</p>
+        <div class="why-feature reveal">
+          <div class="wf-ic">👮</div>
+          <div><h3>Vetted, Background-Checked Pros</h3><p>Every cleaner is interviewed, trained, and insured. The same friendly faces, every visit.</p></div>
+        </div>
+        <div class="why-feature reveal" data-delay="1">
+          <div class="wf-ic">🌱</div>
+          <div><h3>Safe, Eco-Friendly Products</h3><p>Non-toxic, family- and pet-safe supplies that are tough on grime, gentle on your home.</p></div>
+        </div>
+        <div class="why-feature reveal" data-delay="2">
+          <div class="wf-ic">💯</div>
+          <div><h3>The Sparkle Guarantee</h3><p>Not thrilled? We'll re-clean it free within 24 hours — no questions, no charge.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROCESS ===== -->
+  <section class="section" id="process">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">How It Works</span>
+        <h2 class="section-title">Booked in 60 Seconds. Done in a Few Hours.</h2>
+        <p class="section-sub">No phone tag, no awkward estimates. Just a clean home, on your schedule.</p>
+      </div>
+      <div class="process-grid">
+        <div class="step reveal"><div class="step-num">1</div><h3>Book Online</h3><p>Pick your service, date, and time in under a minute.</p></div>
+        <div class="step reveal" data-delay="1"><div class="step-num">2</div><h3>We Confirm</h3><p>Get an instant quote and a matched, vetted cleaning pro.</p></div>
+        <div class="step reveal" data-delay="2"><div class="step-num">3</div><h3>We Clean</h3><p>Our team arrives on time with everything needed to shine.</p></div>
+        <div class="step reveal" data-delay="3"><div class="step-num">4</div><h3>You Relax</h3><p>Come home to a spotless space — guaranteed, or we re-clean free.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PRICING ===== -->
+  <section class="section pricing" id="pricing">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Simple Pricing</span>
+        <h2 class="section-title">Transparent Plans, No Surprises</h2>
+        <p class="section-sub">Flat, upfront pricing. Cancel or reschedule anytime. Save up to 20% on recurring plans.</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="price-card reveal">
+          <div class="price-name">Refresh</div>
+          <div class="price-desc">Perfect for tidy homes needing a regular touch-up.</div>
+          <div class="price-amount">$89<span>/ visit</span></div>
+          <ul class="price-list">
+            <li><span class="chk">✓</span> Up to 2 bed / 1 bath</li>
+            <li><span class="chk">✓</span> Kitchen & bathrooms</li>
+            <li><span class="chk">✓</span> Dusting & vacuuming</li>
+            <li><span class="chk">✓</span> Floors & surfaces</li>
           </ul>
-          <a class="gold-btn magnetic" href="#contact">Start Virtual Tour</a>
+          <a href="#book" class="btn btn-ghost btn-block">Choose Refresh</a>
         </div>
-        <div class="building-stage reveal-right">
-          <canvas id="buildingCanvas"></canvas>
-        </div>
-      </div>
-    </section>
-
-    <section class="section-block" id="services">
-      <div class="container">
-        <div class="section-header reveal-heading">
-          <span class="section-label">What We Do</span>
-          <h2>Our Services</h2>
-          <p>Complete real estate support for premium buyers, sellers, investors, and developers.</p>
-        </div>
-        <div class="services-grid">
-          <article class="service-card"><i class="fa-solid fa-house-chimney"></i><h3>Property Sales</h3><p>Expert guidance through every step of buying and selling premium properties.</p><a class="learn-link" href="#contact">Learn More →</a></article>
-          <article class="service-card"><i class="fa-solid fa-key"></i><h3>Property Rentals</h3><p>Curated rental listings matching your lifestyle and requirements.</p><a class="learn-link" href="#contact">Learn More →</a></article>
-          <article class="service-card"><i class="fa-solid fa-chart-line"></i><h3>Market Analysis</h3><p>Data-driven insights for smart real estate investment decisions.</p><a class="learn-link" href="#contact">Learn More →</a></article>
-          <article class="service-card"><i class="fa-solid fa-building-circle-check"></i><h3>Property Development</h3><p>From concept to completion for residential and commercial projects.</p><a class="learn-link" href="#contact">Learn More →</a></article>
-          <article class="service-card"><i class="fa-solid fa-scale-balanced"></i><h3>Legal Advisory</h3><p>Complete legal support for all property transactions.</p><a class="learn-link" href="#contact">Learn More →</a></article>
-          <article class="service-card"><i class="fa-solid fa-trophy"></i><h3>Property Management</h3><p>Full-service management for your real estate portfolio.</p><a class="learn-link" href="#contact">Learn More →</a></article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section-block alt" id="testimonials">
-      <div class="container">
-        <div class="section-header reveal-heading">
-          <span class="section-label">Testimonials</span>
-          <h2>Client Stories</h2>
-          <p>Trusted by homeowners, investors, and business owners across the United States.</p>
-        </div>
-        <div class="testimonial-window">
-          <div class="testimonial-track">
-            <article class="testimonial-card"><div class="stars">★★★★★</div><p class="quote">"LuxeEstate helped us find our perfect family home in record time. Their team's dedication and market knowledge is absolutely unmatched in the industry."</p><div class="client"><span class="avatar">S</span><div><strong>Sarah & Michael Thompson</strong><span>Homebuyers, New York</span></div></div></article>
-            <article class="testimonial-card"><div class="stars">★★★★★</div><p class="quote">"Sold our commercial property 40% above asking price. The marketing strategy and negotiation skills of this team are truly exceptional."</p><div class="client"><span class="avatar">R</span><div><strong>Robert Chen</strong><span>Business Owner, Los Angeles</span></div></div></article>
-            <article class="testimonial-card"><div class="stars">★★★★★</div><p class="quote">"As a real estate investor, I've worked with many agencies. LuxeEstate stands out for their transparency, speed and outstanding results every single time."</p><div class="client"><span class="avatar">A</span><div><strong>Amanda Foster</strong><span>Real Estate Investor, Miami</span></div></div></article>
-            <article class="testimonial-card"><div class="stars">★★★★★</div><p class="quote">"The virtual tour feature saved us so much time. We found our dream penthouse without visiting 20 properties. Pure luxury service from start to finish."</p><div class="client"><span class="avatar">D</span><div><strong>David & Lisa Park</strong><span>Luxury Buyers, Chicago</span></div></div></article>
-            <article class="testimonial-card"><div class="stars">★★★★★</div><p class="quote">"Property management service is flawless. Zero stress, maximum returns. I highly recommend LuxeEstate to every serious investor looking for professional help."</p><div class="client"><span class="avatar">J</span><div><strong>James Wellington</strong><span>Portfolio Investor, Austin</span></div></div></article>
-          </div>
-        </div>
-        <div class="carousel-dots" aria-label="Testimonial navigation">
-          <button class="dot-btn active" type="button" aria-label="Show testimonial set 1"></button>
-          <button class="dot-btn" type="button" aria-label="Show testimonial set 2"></button>
-          <button class="dot-btn" type="button" aria-label="Show testimonial set 3"></button>
-        </div>
-      </div>
-    </section>
-
-    <section class="section-block" id="contact">
-      <div class="container contact-grid">
-        <div class="contact-copy reveal-left">
-          <span class="section-label">Get in Touch</span>
-          <h2>Book a Property Viewing Today</h2>
-          <p>Tell us what you are searching for and a senior LuxeEstate advisor will prepare a private shortlist within 24 hours.</p>
-          <ul class="contact-details">
-            <li><i class="fa-solid fa-location-dot"></i>150 Fifth Avenue, New York, NY 10011</li>
-            <li><i class="fa-solid fa-phone"></i>+1 (212) 555-0194</li>
-            <li><i class="fa-solid fa-envelope"></i>contact@luxeestate.com</li>
-            <li><i class="fa-solid fa-clock"></i>Mon-Sat: 9AM-7PM EST</li>
+        <div class="price-card featured reveal" data-delay="1">
+          <div class="price-tag-pop">MOST POPULAR</div>
+          <div class="price-name">Sparkle</div>
+          <div class="price-desc">Our most-loved plan for busy households.</div>
+          <div class="price-amount">$139<span>/ visit</span></div>
+          <ul class="price-list">
+            <li><span class="chk">✓</span> Up to 4 bed / 3 bath</li>
+            <li><span class="chk">✓</span> Everything in Refresh</li>
+            <li><span class="chk">✓</span> Inside appliances</li>
+            <li><span class="chk">✓</span> Baseboards & detailing</li>
+            <li><span class="chk">✓</span> Priority scheduling</li>
           </ul>
-          <div class="social-row">
-            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-            <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-            <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
-          </div>
+          <a href="#book" class="btn btn-primary btn-block">Choose Sparkle</a>
         </div>
-        <form class="booking-form reveal-right" id="bookingForm">
-          <div class="form-row">
-            <input type="text" name="name" placeholder="Full Name" required>
-            <input type="email" name="email" placeholder="Email Address" required>
+        <div class="price-card reveal" data-delay="2">
+          <div class="price-name">Deep Clean</div>
+          <div class="price-desc">Top-to-bottom detailing for any size space.</div>
+          <div class="price-amount">$199<span>/ visit</span></div>
+          <ul class="price-list">
+            <li><span class="chk">✓</span> Any size home</li>
+            <li><span class="chk">✓</span> Everything in Sparkle</li>
+            <li><span class="chk">✓</span> Inside cabinets & oven</li>
+            <li><span class="chk">✓</span> Windows & vents</li>
+            <li><span class="chk">✓</span> Move-in / move-out ready</li>
+          </ul>
+          <a href="#book" class="btn btn-ghost btn-block">Choose Deep Clean</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TESTIMONIALS ===== -->
+  <section class="section" id="reviews">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Loved by Thousands</span>
+        <h2 class="section-title">Don't Take Our Word for It</h2>
+        <p class="section-sub">Real reviews from real customers who got their time back.</p>
+      </div>
+      <div class="testi-grid">
+        <div class="testi-card reveal">
+          <div class="testi-stars">★★★★★</div>
+          <p>"Honestly the best cleaning service I've used. My apartment has never looked this good — they nailed the deposit-back deep clean perfectly. Booking took two minutes."</p>
+          <div class="testi-who"><div class="testi-av" style="background:#0891b2;">SR</div><div><h4>Sarah Reynolds</h4><span>Brooklyn, NY</span></div></div>
+        </div>
+        <div class="testi-card reveal" data-delay="1">
+          <div class="testi-stars">★★★★★</div>
+          <p>"We switched our whole office to SparkleClean and the team is reliable, friendly, and thorough. Our space feels healthier and clients always notice. Worth every penny."</p>
+          <div class="testi-who"><div class="testi-av" style="background:#22c55e;">MT</div><div><h4>Marcus Tan</h4><span>Office Manager, BrewLab</span></div></div>
+        </div>
+        <div class="testi-card reveal" data-delay="2">
+          <div class="testi-stars">★★★★★</div>
+          <p>"As a working mom of three, this gave me my weekends back. The same lovely cleaner comes every two weeks and the eco products mean I never worry about the kids. Life-changing."</p>
+          <div class="testi-who"><div class="testi-av" style="background:#0e7490;">AL</div><div><h4>Amara Lewis</h4><span>Austin, TX</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="section faq" id="faq">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Questions?</span>
+        <h2 class="section-title">Frequently Asked</h2>
+      </div>
+      <div class="faq-wrap">
+        <div class="faq-item reveal">
+          <button class="faq-q">Do I need to provide cleaning supplies? <span class="ico">+</span></button>
+          <div class="faq-a"><p>Not at all. Our pros arrive fully equipped with professional, eco-friendly products and equipment. If you'd prefer we use your supplies (for allergies or specific surfaces), just let us know when booking.</p></div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-q">Are your cleaners insured and background-checked? <span class="ico">+</span></button>
+          <div class="faq-a"><p>Yes. Every SparkleClean professional is fully insured, bonded, and passes a thorough background check and in-person training before ever entering a home or office.</p></div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-q">What if I'm not happy with the clean? <span class="ico">+</span></button>
+          <div class="faq-a"><p>Our Sparkle Guarantee has you covered. If anything falls short, contact us within 24 hours and we'll return to re-clean the area free of charge — no questions asked.</p></div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-q">Do I have to be home during the cleaning? <span class="ico">+</span></button>
+          <div class="faq-a"><p>Nope. Many customers provide entry instructions and go about their day. Our vetted, insured team handles the rest and locks up when finished. Whatever makes you comfortable.</p></div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-q">Can I reschedule or cancel? <span class="ico">+</span></button>
+          <div class="faq-a"><p>Absolutely. Reschedule or cancel any time up to 24 hours before your appointment at no cost, right from your confirmation email or with a quick call.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FINAL CTA / BOOKING ===== -->
+  <section class="section cta-final" id="book">
+    <div class="container cta-grid">
+      <div class="cta-copy">
+        <span class="eyebrow">Get Started</span>
+        <h2>Your Spotless Space Is Two Minutes Away</h2>
+        <p>Tell us a little about your space and we'll send a free, no-obligation quote — usually within the hour.</p>
+        <div class="cta-perks">
+          <div class="p"><span class="ic">✓</span> Free instant quote, no commitment</div>
+          <div class="p"><span class="ic">✓</span> Same-day & next-day availability</div>
+          <div class="p"><span class="ic">✓</span> 100% satisfaction guarantee</div>
+        </div>
+      </div>
+      <div class="booking">
+        <form id="bookForm">
+          <h3>Get Your Free Quote</h3>
+          <p class="sub">Takes less than 60 seconds.</p>
+          <div class="field-row">
+            <div class="field"><label for="name">Full name</label><input id="name" type="text" placeholder="Jane Doe" required /></div>
+            <div class="field"><label for="phone">Phone</label><input id="phone" type="tel" placeholder="(800) 555-0199" required /></div>
           </div>
-          <div class="form-row">
-            <input type="tel" name="phone" placeholder="Phone Number" required>
-            <select name="propertyType" required>
-              <option value="">Property Type</option>
-              <option>Residential</option>
-              <option>Commercial</option>
-              <option>Luxury</option>
-              <option>Investment</option>
-            </select>
+          <div class="field"><label for="email">Email</label><input id="email" type="email" placeholder="jane@email.com" required /></div>
+          <div class="field-row">
+            <div class="field">
+              <label for="service">Service</label>
+              <select id="service" required>
+                <option value="" disabled selected>Choose one</option>
+                <option>Residential cleaning</option>
+                <option>Office & commercial</option>
+                <option>Deep / move-out clean</option>
+                <option>Carpet & upholstery</option>
+                <option>Window & glass</option>
+                <option>Post-construction</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="size">Home size</label>
+              <select id="size" required>
+                <option value="" disabled selected>Select size</option>
+                <option>Studio / 1 bed</option>
+                <option>2 bed</option>
+                <option>3 bed</option>
+                <option>4+ bed</option>
+                <option>Office / commercial</option>
+              </select>
+            </div>
           </div>
-          <div class="form-row">
-            <select name="budget" required>
-              <option value="">Budget Range</option>
-              <option>Under $500K</option>
-              <option>$500K-$1M</option>
-              <option>$1M-$3M</option>
-              <option>$3M-$5M</option>
-              <option>$5M+</option>
-            </select>
-            <input type="date" name="date" aria-label="Preferred Viewing Date" required>
-          </div>
-          <textarea name="message" rows="4" placeholder="Message" required></textarea>
-          <button class="gold-btn magnetic" type="submit"><span class="spinner"></span>Schedule My Viewing →</button>
-          <p class="form-message" role="status"></p>
+          <button type="submit" class="btn btn-primary btn-block" style="margin-top:6px;">Get My Free Quote →</button>
+          <p class="form-note">🔒 No spam, ever. We'll only use your info to send your quote.</p>
         </form>
+        <div class="form-success" id="formSuccess">
+          <div class="big">🎉</div>
+          <h3>Quote on the way!</h3>
+          <p class="sub" style="margin-top:8px;">Thanks — one of our team will reach out shortly with your personalized quote.</p>
+        </div>
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
 
-  <footer class="footer">
+  <!-- ===== FOOTER ===== -->
+  <footer>
     <div class="container">
       <div class="footer-grid">
         <div>
-          <div class="footer-logo">LUXE ESTATE</div>
-          <p>Premium real estate services for discerning clients across the United States.</p>
-          <div class="social-row">
-            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-            <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#home" class="logo"><span class="logo-mark">✦</span>SparkleClean</a>
+          <p class="f-about">Premium, eco-friendly cleaning for homes and offices. Giving busy people their time — and their sparkle — back since 2014.</p>
+          <div class="f-social">
+            <a href="#" aria-label="Facebook">f</a>
+            <a href="#" aria-label="Instagram">◎</a>
+            <a href="#" aria-label="Twitter">✕</a>
+            <a href="#" aria-label="LinkedIn">in</a>
           </div>
         </div>
         <div>
-          <h3>Properties</h3>
+          <h4>Services</h4>
           <ul>
-            <li><a href="#properties">Luxury Homes</a></li>
-            <li><a href="#properties">Commercial</a></li>
-            <li><a href="#properties">Apartments</a></li>
-            <li><a href="#properties">Investment</a></li>
-            <li><a href="#properties">New Developments</a></li>
+            <li><a href="#services">Residential</a></li>
+            <li><a href="#services">Office & Commercial</a></li>
+            <li><a href="#services">Deep & Move-Out</a></li>
+            <li><a href="#services">Carpet & Windows</a></li>
           </ul>
         </div>
         <div>
-          <h3>Company</h3>
+          <h4>Company</h4>
           <ul>
-            <li><a href="#about">About Us</a></li>
-            <li><a href="#services">Our Team</a></li>
-            <li><a href="#contact">Careers</a></li>
-            <li><a href="#testimonials">Press</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="#why">Why Us</a></li>
+            <li><a href="#reviews">Reviews</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#faq">FAQ</a></li>
           </ul>
         </div>
         <div>
-          <h3>Newsletter</h3>
-          <p>Stay Updated</p>
-          <form class="newsletter-form">
-            <input type="email" placeholder="Email address" required>
-            <button type="submit" aria-label="Subscribe"><i class="fa-solid fa-arrow-right"></i></button>
-          </form>
-          <p>Join 10,000+ subscribers</p>
+          <h4>Get in Touch</h4>
+          <ul>
+            <li><a href="tel:+18005550199">📞 (800) 555-0199</a></li>
+            <li><a href="mailto:hello@sparkleclean.com">✉️ hello@sparkleclean.com</a></li>
+            <li><a href="#book">📅 Book online</a></li>
+          </ul>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>© 2026 LuxeEstate. All rights reserved.</p>
-        <div>
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms</a>
-          <a href="#">Sitemap</a>
-        </div>
+        <span>© 2026 SparkleClean. All rights reserved.</span>
+        <span>Insured & bonded · Eco-certified · Satisfaction guaranteed</span>
       </div>
     </div>
   </footer>
 
-  <div class="detail-view" id="detailView" role="dialog" aria-modal="true" aria-label="Property details">
-    <nav class="detail-nav">
-      <div class="container detail-nav-inner">
-        <a class="logo" href="#home" data-detail-close>LUXE ESTATE</a>
-        <a class="detail-back" href="#properties" data-detail-close><i class="fa-solid fa-arrow-left"></i> Back to Properties</a>
-      </div>
-    </nav>
-
-    <main>
-      <section class="detail-hero">
-        <div class="container">
-          <span class="detail-label" id="detailType">Featured Listing</span>
-          <h1 id="detailName">The Grand Manhattan</h1>
-          <p id="detailDescription"></p>
-          <div class="detail-summary" id="detailSummary"></div>
-        </div>
-      </section>
-
-      <section class="detail-section">
-        <div class="container detail-grid-two">
-          <div class="detail-panel detail-copy-panel">
-            <span class="detail-label">Property Overview</span>
-            <h2>Designed for modern luxury living.</h2>
-            <p id="detailOverview"></p>
-            <ul class="detail-feature-list" id="detailFeatures"></ul>
-          </div>
-          <aside class="detail-panel detail-agent-card">
-            <div class="detail-agent-top">
-              <span class="detail-avatar" id="detailAgentInitial">J</span>
-              <div>
-                <h3 id="detailAgentName">James Richardson</h3>
-                <p>Senior Property Advisor</p>
-              </div>
-            </div>
-            <p>Request a private viewing, virtual walkthrough, or investment comparison report for this listing.</p>
-            <a class="detail-button" href="#contact" data-detail-close>Book Viewing</a>
-          </aside>
-        </div>
-      </section>
-
-      <section class="detail-section alt">
-        <div class="container">
-          <span class="detail-label">Image Gallery</span>
-          <h2 class="detail-section-title">Property Images</h2>
-          <div class="detail-gallery" id="detailGallery"></div>
-        </div>
-      </section>
-
-      <section class="detail-section">
-        <div class="container">
-          <span class="detail-label">Video Tours</span>
-          <h2 class="detail-section-title">Walk Through the Space</h2>
-          <div class="detail-media-grid">
-            <article class="detail-video-card">
-              <video controls playsinline preload="none" poster="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80">
-                <source src="https://videos.pexels.com/video-files/3773486/3773486-hd_1920_1080_30fps.mp4" type="video/mp4">
-              </video>
-              <div>
-                <h3>Interior Video Tour</h3>
-                <p>Preview the main living spaces, finishes, natural light, and room flow before booking a visit.</p>
-              </div>
-            </article>
-            <article class="detail-video-card">
-              <video controls playsinline preload="none" poster="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1000&q=80">
-                <source src="https://videos.pexels.com/video-files/7578546/7578546-hd_1920_1080_25fps.mp4" type="video/mp4">
-              </video>
-              <div>
-                <h3>Lifestyle Preview</h3>
-                <p>See the premium lifestyle details, exterior mood, and neighborhood feeling around the property.</p>
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="detail-section alt">
-        <div class="container detail-virtual-grid">
-          <div>
-            <span class="detail-label">3D Virtual</span>
-            <h2 class="detail-section-title">Interactive Property Model</h2>
-            <p style="color: var(--white-60); max-width: 560px;">Move your mouse over the model and drag to rotate the property preview. This gives buyers a quick spatial feel before scheduling a full tour.</p>
-          </div>
-          <div class="detail-virtual-stage">
-            <canvas id="virtualCanvas"></canvas>
-          </div>
-        </div>
-      </section>
-
-      <section class="detail-section">
-        <div class="container">
-          <span class="detail-label">Location Map</span>
-          <h2 class="detail-section-title">Prime Location</h2>
-          <div class="detail-map-wrap">
-            <iframe id="detailMapFrame" title="Property location map" loading="lazy"></iframe>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer class="detail-footer">
-      <div class="container">© 2026 LuxeEstate. Premium real estate services across the United States.</div>
-    </footer>
-  </div>
-
-  <a class="whatsapp" href="https://wa.me/12125550194" target="_blank" rel="noopener" aria-label="Chat with an Agent">
-    <span class="whatsapp-tooltip">Chat with an Agent</span>
-    <i class="fa-brands fa-whatsapp"></i>
-  </a>
-
   <script>
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const isMobile = window.matchMedia("(max-width: 767px)").matches;
-    const renderScale = Math.min(window.devicePixelRatio || 1, 1.25);
-
-    window.addEventListener("load", () => {
-      if (window.gsap) {
-        gsap.to(".loader-logo", { opacity: 1, scale: 1, duration: 0.6 });
-        gsap.to(".loader", { opacity: 0, duration: 0.7, delay: 1.5, onComplete: () => document.querySelector(".loader").remove() });
-        runGsapAnimations();
-      } else {
-        document.querySelector(".loader").remove();
-      }
+    // ===== Sticky nav =====
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 30);
     });
 
-    const navbar = document.querySelector(".navbar");
-    window.addEventListener("scroll", () => {
-      navbar.classList.toggle("scrolled", window.scrollY > 50);
-    });
+    // ===== Mobile menu =====
+    const toggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => navLinks.classList.toggle('mobile-open'));
+    navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('mobile-open')));
 
-    const hamburger = document.querySelector(".hamburger");
-    const navMenu = document.querySelector(".nav-menu");
-    hamburger.addEventListener("click", () => {
-      const isOpen = navMenu.classList.toggle("open");
-      hamburger.setAttribute("aria-expanded", String(isOpen));
-      hamburger.innerHTML = isOpen ? '<i class="fa-solid fa-xmark"></i>' : '<i class="fa-solid fa-bars"></i>';
-    });
-
-    document.querySelectorAll(".nav-menu a").forEach((link) => {
-      link.addEventListener("click", () => {
-        navMenu.classList.remove("open");
-        hamburger.setAttribute("aria-expanded", "false");
-        hamburger.innerHTML = '<i class="fa-solid fa-bars"></i>';
+    // ===== Scroll reveal =====
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
       });
-    });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-    document.querySelectorAll(".filter-btn").forEach((button) => {
-      button.addEventListener("click", () => {
-        const filter = button.dataset.filter;
-        document.querySelectorAll(".filter-btn").forEach((item) => item.classList.remove("active"));
-        button.classList.add("active");
-        document.querySelectorAll(".property-card").forEach((card) => {
-          const show = filter === "all" || card.dataset.category.includes(filter);
-          card.style.display = show ? "block" : "none";
-          if (show && window.gsap) {
-            gsap.fromTo(card, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.35 });
-          }
-        });
-      });
-    });
-
-    const track = document.querySelector(".testimonial-track");
-    const dots = document.querySelectorAll(".dot-btn");
-    let slideIndex = 0;
-    let testimonialTimer;
-
-    function visibleTestimonials() {
-      if (window.innerWidth < 768) return 1;
-      if (window.innerWidth < 1025) return 2;
-      return 3;
-    }
-
-    function updateCarousel(index) {
-      const cards = document.querySelectorAll(".testimonial-card");
-      const maxIndex = Math.max(0, cards.length - visibleTestimonials());
-      slideIndex = Math.min(index, maxIndex);
-      const gap = visibleTestimonials() === 1 ? 0 : 27;
-      const cardWidth = cards[0].getBoundingClientRect().width + gap;
-      track.style.transform = `translateX(${-slideIndex * cardWidth}px)`;
-      dots.forEach((dot, dotIndex) => dot.classList.toggle("active", dotIndex === Math.min(slideIndex, dots.length - 1)));
-    }
-
-    function startCarousel() {
-      testimonialTimer = setInterval(() => {
-        const cards = document.querySelectorAll(".testimonial-card");
-        const maxIndex = Math.max(0, cards.length - visibleTestimonials());
-        updateCarousel(slideIndex >= maxIndex ? 0 : slideIndex + 1);
-      }, 4000);
-    }
-
-    dots.forEach((dot, index) => dot.addEventListener("click", () => updateCarousel(index)));
-    document.querySelector(".testimonial-window").addEventListener("mouseenter", () => clearInterval(testimonialTimer));
-    document.querySelector(".testimonial-window").addEventListener("mouseleave", startCarousel);
-    window.addEventListener("resize", () => updateCarousel(slideIndex));
-    startCarousel();
-
-    const bookingForm = document.getElementById("bookingForm");
-    bookingForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-      const message = bookingForm.querySelector(".form-message");
-      bookingForm.classList.add("loading");
-      message.textContent = "";
-      setTimeout(() => {
-        bookingForm.classList.remove("loading");
-        message.textContent = "Thank you! Our agent will contact you within 24 hours.";
-        bookingForm.reset();
-      }, 900);
-    });
-
-    document.querySelector(".newsletter-form").addEventListener("submit", (event) => {
-      event.preventDefault();
-      event.currentTarget.reset();
-    });
-
-    setTimeout(() => document.querySelector(".whatsapp").classList.add("visible"), 3000);
-
-    function runGsapAnimations() {
-      if (!window.gsap || !window.ScrollTrigger || prefersReducedMotion) return;
-      gsap.registerPlugin(ScrollTrigger);
-
-      gsap.set(".hero-label, .hero-subtitle, .hero-actions, .scroll-indicator", { opacity: 0, y: 24 });
-      gsap.set(".hero-word", { yPercent: 115, opacity: 0 });
-      gsap.timeline({ delay: 0.45 })
-        .to(".hero-label", { opacity: 1, y: 0, duration: 0.65 })
-        .to(".hero-word", { yPercent: 0, opacity: 1, duration: 0.9, stagger: 0.1, ease: "power3.out" }, "-=0.2")
-        .to(".hero-subtitle", { opacity: 1, y: 0, duration: 0.65 }, "-=0.25")
-        .to(".hero-actions, .scroll-indicator", { opacity: 1, y: 0, duration: 0.65 }, "-=0.3");
-
-      gsap.to(".hero-content", {
-        y: 90,
-        ease: "none",
-        scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true }
-      });
-
-      gsap.utils.toArray(".reveal-heading").forEach((heading) => {
-        gsap.from(heading, {
-          opacity: 0,
-          y: 50,
-          duration: 0.8,
-          scrollTrigger: { trigger: heading, start: "top 82%" }
-        });
-      });
-
-      gsap.from(".property-card", {
-        opacity: 0,
-        y: 48,
-        duration: 0.7,
-        stagger: 0.1,
-        scrollTrigger: { trigger: ".property-grid", start: "top 82%" }
-      });
-
-      gsap.from(".service-card", {
-        opacity: 0,
-        y: 42,
-        duration: 0.75,
-        stagger: 0.09,
-        scrollTrigger: { trigger: ".services-grid", start: "top 82%" }
-      });
-
-      gsap.from(".testimonial-card", {
-        opacity: 0,
-        y: 48,
-        duration: 0.75,
-        stagger: 0.1,
-        scrollTrigger: { trigger: ".testimonial-window", start: "top 82%" }
-      });
-
-      gsap.utils.toArray(".reveal-left").forEach((item) => {
-        gsap.from(item, {
-          opacity: 0,
-          x: -60,
-          duration: 0.8,
-          scrollTrigger: { trigger: item, start: "top 78%" }
-        });
-      });
-
-      gsap.utils.toArray(".reveal-right").forEach((item) => {
-        gsap.from(item, {
-          opacity: 0,
-          x: 60,
-          duration: 0.8,
-          scrollTrigger: { trigger: item, start: "top 78%" }
-        });
-      });
-
-      document.querySelectorAll(".stat-number").forEach((stat) => {
-        const target = Number(stat.dataset.value);
-        const prefix = stat.dataset.prefix || "";
-        const suffix = stat.dataset.suffix || "";
-        const object = { value: 0 };
-        gsap.to(object, {
-          value: target,
-          duration: 1.8,
-          ease: "power2.out",
-          scrollTrigger: { trigger: ".stats", start: "top 82%", once: true },
-          onUpdate: () => {
-            const value = target % 1 === 0 ? Math.floor(object.value).toLocaleString() : object.value.toFixed(1);
-            stat.textContent = `${prefix}${value}${suffix}`;
-          }
-        });
-      });
-    }
-
-    function initHeroScene() {
-      if (!window.THREE || isMobile) return;
-      const canvas = document.getElementById("heroCanvas");
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-      renderer.setPixelRatio(renderScale);
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      camera.position.z = 12;
-      scene.fog = new THREE.FogExp2(0x0a0a0f, 0.035);
-
-      const gold = new THREE.Color(0xc9a84c);
-      const group = new THREE.Group();
-      scene.add(group);
-
-      const icoGeo = new THREE.IcosahedronGeometry(1.45, 0);
-      const wireMat = new THREE.MeshBasicMaterial({ color: gold, wireframe: true, transparent: true, opacity: 0.65 });
-      const positions = [[-5.2, 1.8, -2], [4.8, -0.6, -1.5], [0.8, 3.1, -3]];
-      positions.forEach((position) => {
-        const mesh = new THREE.Mesh(icoGeo, wireMat.clone());
-        mesh.position.set(position[0], position[1], position[2]);
-        group.add(mesh);
-      });
-
-      const cubeGeo = new THREE.BoxGeometry(0.65, 0.65, 0.65);
-      for (let i = 0; i < 5; i += 1) {
-        const cube = new THREE.Mesh(cubeGeo, wireMat.clone());
-        cube.position.set((Math.random() - 0.5) * 12, (Math.random() - 0.5) * 7, -Math.random() * 6);
-        group.add(cube);
-      }
-
-      const particleGeo = new THREE.BufferGeometry();
-      const particlePositions = [];
-      for (let i = 0; i < 90; i += 1) {
-        particlePositions.push((Math.random() - 0.5) * 22, (Math.random() - 0.5) * 12, (Math.random() - 0.5) * 14);
-      }
-      particleGeo.setAttribute("position", new THREE.Float32BufferAttribute(particlePositions, 3));
-      const particles = new THREE.Points(particleGeo, new THREE.PointsMaterial({ color: gold, size: 0.035, transparent: true, opacity: 0.85 }));
-      scene.add(particles);
-
-      let targetX = 0;
-      let targetY = 0;
-      window.addEventListener("mousemove", (event) => {
-        targetX = (event.clientX / window.innerWidth - 0.5) * 0.35;
-        targetY = (event.clientY / window.innerHeight - 0.5) * 0.35;
-      });
-
-      let heroInView = true;
-      let heroTabActive = true;
-      const heroObserver = new IntersectionObserver((entries) => {
-        heroInView = entries[0].isIntersecting;
-      }, { threshold: 0.05 });
-      heroObserver.observe(document.querySelector(".hero"));
-      document.addEventListener("visibilitychange", () => {
-        heroTabActive = !document.hidden;
-      });
-
-      function animate() {
-        requestAnimationFrame(animate);
-        if (!heroInView || !heroTabActive) return;
-        group.rotation.x += (targetY - group.rotation.x) * 0.04;
-        group.rotation.y += (targetX - group.rotation.y) * 0.04;
-        group.children.forEach((mesh, index) => {
-          mesh.rotation.x += 0.003 + index * 0.0005;
-          mesh.rotation.y += 0.005 + index * 0.0004;
-          mesh.position.y += Math.sin(Date.now() * 0.001 + index) * 0.0008;
-        });
-        particles.rotation.y += 0.0008;
-        renderer.render(scene, camera);
-      }
-      animate();
-
-      window.addEventListener("resize", () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-      });
-    }
-
-    function initBuildingScene() {
-      if (!window.THREE || isMobile) return;
-      const canvas = document.getElementById("buildingCanvas");
-      const stage = canvas.parentElement;
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(50, stage.clientWidth / stage.clientHeight, 0.1, 1000);
-      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-      renderer.setPixelRatio(renderScale);
-      renderer.setSize(stage.clientWidth, stage.clientHeight);
-      camera.position.set(0, 4.2, 17);
-      camera.lookAt(0, 2.1, 0);
-
-      const building = new THREE.Group();
-      building.scale.set(0.72, 0.72, 0.72);
-      building.position.y = -1.55;
-      scene.add(building);
-      const gold = 0xc9a84c;
-      const wire = new THREE.MeshBasicMaterial({ color: gold, wireframe: true, transparent: true, opacity: 0.78 });
-      const glass = new THREE.MeshBasicMaterial({ color: 0xe8d5a3, transparent: true, opacity: 0.08 });
-
-      const towerSpecs = [
-        { size: [2.4, 7.4, 2.4], pos: [0, 0, 0] },
-        { size: [1.6, 5.8, 1.8], pos: [-1.7, -0.8, 0.35] },
-        { size: [1.4, 4.6, 1.5], pos: [1.7, -1.4, -0.2] }
-      ];
-
-      towerSpecs.forEach((spec) => {
-        const box = new THREE.Mesh(new THREE.BoxGeometry(...spec.size), wire);
-        box.position.set(spec.pos[0], spec.size[1] / 2 + spec.pos[1], spec.pos[2]);
-        building.add(box);
-        const fill = new THREE.Mesh(new THREE.BoxGeometry(...spec.size), glass);
-        fill.position.copy(box.position);
-        building.add(fill);
-      });
-
-      const windowMat = new THREE.MeshBasicMaterial({ color: gold, transparent: true, opacity: 0.82 });
-      for (let y = 0.8; y < 7.2; y += 0.55) {
-        for (let x = -0.75; x <= 0.75; x += 0.5) {
-          const pane = new THREE.Mesh(new THREE.PlaneGeometry(0.16, 0.2), windowMat);
-          pane.position.set(x, y, 1.23);
-          building.add(pane);
+    // ===== Animated counters =====
+    const counters = document.querySelectorAll('[data-count]');
+    const cio = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const el = e.target;
+        const target = parseFloat(el.dataset.count);
+        const decimals = parseInt(el.dataset.decimals || '0');
+        const suffix = el.dataset.suffix || '';
+        const dur = 1600; const start = performance.now();
+        function tick(now) {
+          const p = Math.min((now - start) / dur, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          const val = target * eased;
+          el.textContent = (decimals ? val.toFixed(decimals) : Math.floor(val).toLocaleString()) + suffix;
+          if (p < 1) requestAnimationFrame(tick);
+          else el.textContent = (decimals ? target.toFixed(decimals) : target.toLocaleString()) + suffix;
         }
-      }
-
-      const point = new THREE.PointLight(0xc9a84c, 1.7, 22);
-      point.position.set(0, -1, 4);
-      scene.add(point);
-      scene.add(new THREE.AmbientLight(0xffffff, 0.35));
-
-      const pGeo = new THREE.BufferGeometry();
-      const pPositions = [];
-      for (let i = 0; i < 55; i += 1) {
-        pPositions.push((Math.random() - 0.5) * 10, Math.random() * 8, (Math.random() - 0.5) * 8);
-      }
-      pGeo.setAttribute("position", new THREE.Float32BufferAttribute(pPositions, 3));
-      const particles = new THREE.Points(pGeo, new THREE.PointsMaterial({ color: gold, size: 0.04, transparent: true, opacity: 0.7 }));
-      scene.add(particles);
-
-      let paused = false;
-      let dragging = false;
-      let lastX = 0;
-      let buildingInView = false;
-      let buildingTabActive = true;
-      const buildingObserver = new IntersectionObserver((entries) => {
-        buildingInView = entries[0].isIntersecting;
-      }, { threshold: 0.08 });
-      buildingObserver.observe(stage);
-      document.addEventListener("visibilitychange", () => {
-        buildingTabActive = !document.hidden;
+        requestAnimationFrame(tick);
+        cio.unobserve(el);
       });
-      stage.addEventListener("mouseenter", () => { paused = true; });
-      stage.addEventListener("mouseleave", () => { paused = false; dragging = false; });
-      stage.addEventListener("mousedown", (event) => { dragging = true; lastX = event.clientX; });
-      window.addEventListener("mouseup", () => { dragging = false; });
-      window.addEventListener("mousemove", (event) => {
-        if (!dragging) return;
-        building.rotation.y += (event.clientX - lastX) * 0.01;
-        lastX = event.clientX;
-      });
+    }, { threshold: 0.5 });
+    counters.forEach(c => cio.observe(c));
 
-      function animate() {
-        requestAnimationFrame(animate);
-        if (!buildingInView || !buildingTabActive) return;
-        if (!paused && !dragging) building.rotation.y += 0.006;
-        particles.rotation.y -= 0.001;
-        renderer.render(scene, camera);
-      }
-      animate();
-
-      window.addEventListener("resize", () => {
-        camera.aspect = stage.clientWidth / stage.clientHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(stage.clientWidth, stage.clientHeight);
-      });
-    }
-
-    initHeroScene();
-    initBuildingScene();
-
-    /* ===== Property Detail Overlay logic (merged from property-details.html) ===== */
-    const properties = {
-      manhattan: {
-        type: "For Sale | Luxury",
-        name: "The Grand Manhattan",
-        price: "$4,200,000",
-        location: "New York, NY",
-        beds: "5 Beds",
-        baths: "4 Baths",
-        size: "4,100 sqft",
-        agent: "James Richardson",
-        hero: "url('https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1800&q=80')",
-        description: "A refined Manhattan residence with skyline views, private entertaining space, elegant interiors, and direct access to New York's most exclusive dining and cultural districts.",
-        overview: "The Grand Manhattan is built for high-end city living with generous rooms, premium stone finishes, smart home automation, private elevator access, and a layout that separates family comfort from formal entertaining.",
-        map: "New York, NY",
-        images: [
-          "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=80",
-          "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80",
-          "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=900&q=80",
-          "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=900&q=80",
-          "https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=900&q=80"
-        ],
-        features: ["Private elevator entry", "Skyline terrace", "Chef-grade kitchen", "Concierge service", "Smart lighting", "Secure parking"]
-      },
-      beverly: {
-        type: "For Sale | Luxury",
-        name: "Beverly Hills Estate",
-        price: "$6,800,000",
-        location: "Los Angeles, CA",
-        beds: "6 Beds",
-        baths: "5 Baths",
-        size: "5,800 sqft",
-        agent: "Elena Marquez",
-        hero: "url('https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1800&q=80')",
-        description: "A private Beverly Hills estate with resort-inspired outdoor living, gallery-like interiors, and a peaceful setting minutes from Rodeo Drive.",
-        overview: "This estate combines privacy, scale, and refined materials with expansive entertainment zones, landscaped gardens, poolside lounges, and carefully framed views across Los Angeles.",
-        map: "Beverly Hills, CA",
-        images: [
-          "https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1200&q=80",
-          "https://images.unsplash.com/photo-1613977257592-4871e5fcd7c4?auto=format&fit=crop&w=900&q=80",
-          "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=80",
-          "https://images.unsplash.com/photo-1600607687644-c7171b42498f?auto=format&fit=crop&w=900&q=80",
-          "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=900&q=80"
-        ],
-        features: ["Resort pool", "Private cinema", "Wine room", "Landscaped garden", "Guest suite", "Gated entry"]
-      },
-      penthouse: {
-        type: "For Rent | Luxury",
-        name: "Downtown Penthouse",
-        price: "$12,500/mo",
-        location: "Chicago, IL",
-        beds: "3 Beds",
-        baths: "2 Baths",
-        size: "2,100 sqft",
-        agent: "Marcus Bell",
-        hero: "url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1800&q=80')",
-        description: "A sleek downtown penthouse with floor-to-ceiling glass, city views, premium amenities, and an easy walk to Chicago's business and lifestyle districts.",
-        overview: "The penthouse offers a bright open plan, refined fixtures, a private balcony, building amenities, and a flexible lease option for executives and luxury renters.",
-        map: "Chicago, IL",
-        images: [
-          "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
-          "https://images.unsplash.com/photo-1600210492493-0946911123ea?auto=format&fit=crop&w=900&q=80",
-          "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=900&q=80",
-          "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=900&q=80",
-          "https://images.unsplash.com/photo-1600607688960-e095ff83135c?auto=format&fit=crop&w=900&q=80"
-        ],
-        features: ["City balcony", "Fitness club", "Doorman", "Designer kitchen", "Flexible lease", "Reserved parking"]
-      },
-      lakefront: {
-        type: "For Sale | Luxury",
-        name: "Lakefront Villa",
-        price: "$3,100,000",
-        location: "Miami, FL",
-        beds: "4 Beds",
-        baths: "3 Baths",
-        size: "3,600 sqft",
-        agent: "Sofia Grant",
-        hero: "url('https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=1800&q=80')",
-        description: "A bright Miami villa with water views, open-air entertaining, elegant interiors, and seamless indoor-outdoor living.",
-        overview: "The villa is shaped around relaxed luxury, with generous social zones, shaded outdoor dining, a private dock-style view corridor, and warm finishes throughout.",
-        map: "Miami, FL",
-        images: [
-          "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=1200&q=80",
-          "https://images.unsplash.com/photo-1600566752355-35792bedcfea?auto=format&fit=crop&w=900&q=80",
-          "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=900&q=80",
-          "https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=900&q=80",
-          "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=900&q=80"
-        ],
-        features: ["Water views", "Outdoor kitchen", "Pool terrace", "Primary suite", "Open living", "Private lounge"]
-      },
-      office: {
-        type: "For Sale | Commercial",
-        name: "Corporate Office Tower",
-        price: "$8,900,000",
-        location: "Austin, TX",
-        beds: "20 Offices",
-        baths: "Conference Suites",
-        size: "8,200 sqft",
-        agent: "Daniel Price",
-        hero: "url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1800&q=80')",
-        description: "A high-visibility commercial tower with premium office suites, modern shared amenities, and strong access to Austin's growing business corridor.",
-        overview: "This commercial asset is positioned for owner-users or investors seeking strong tenant appeal, efficient floor plates, upgraded systems, and premium executive presentation.",
-        map: "Austin, TX",
-        images: [
-          "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80",
-          "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=80",
-          "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=900&q=80",
-          "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=900&q=80",
-          "https://images.unsplash.com/photo-1497366412874-3415097a27e7?auto=format&fit=crop&w=900&q=80"
-        ],
-        features: ["20 private offices", "Board rooms", "Reception lobby", "Tenant-ready suites", "Parking access", "Prime frontage"]
-      },
-      seattle: {
-        type: "For Rent | Apartment",
-        name: "Modern City Apartment",
-        price: "$4,200/mo",
-        location: "Seattle, WA",
-        beds: "2 Beds",
-        baths: "2 Baths",
-        size: "1,400 sqft",
-        agent: "Nora Collins",
-        hero: "url('https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1800&q=80')",
-        description: "A modern Seattle apartment with efficient planning, warm interiors, quality amenities, and quick access to work, dining, and waterfront destinations.",
-        overview: "This apartment is designed for convenient city living with a calm interior palette, flexible work-from-home areas, secure building entry, and well-managed amenities.",
-        map: "Seattle, WA",
-        images: [
-          "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1200&q=80",
-          "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=900&q=80",
-          "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=900&q=80",
-          "https://images.unsplash.com/photo-1560448075-bb485b067938?auto=format&fit=crop&w=900&q=80",
-          "https://images.unsplash.com/photo-1560185007-c5ca9d2c014d?auto=format&fit=crop&w=900&q=80"
-        ],
-        features: ["Work nook", "Secure entry", "Rooftop deck", "Modern kitchen", "In-unit laundry", "Transit access"]
-      }
-    };
-
-    const detailView = document.getElementById("detailView");
-    const detailMapFrame = document.getElementById("detailMapFrame");
-    let virtualModelStarted = false;
-    let mapLoadedFor = null;
-
-    function renderDetail(key) {
-      const data = properties[key] || properties.manhattan;
-      document.documentElement.style.setProperty("--detail-hero-image", data.hero);
-      document.getElementById("detailType").textContent = data.type;
-      document.getElementById("detailName").textContent = data.name;
-      document.getElementById("detailDescription").textContent = data.description;
-      document.getElementById("detailOverview").textContent = data.overview;
-      document.getElementById("detailAgentName").textContent = data.agent;
-      document.getElementById("detailAgentInitial").textContent = data.agent.charAt(0);
-      document.getElementById("detailSummary").innerHTML = [data.price, data.location, data.beds, data.baths, data.size].map((item) => `<span>${item}</span>`).join("");
-      document.getElementById("detailFeatures").innerHTML = data.features.map((item) => `<li><i class="fa-solid fa-check"></i>${item}</li>`).join("");
-      document.getElementById("detailGallery").innerHTML = data.images.map((src, index) => `<img src="${src}" alt="${data.name} property image ${index + 1}" loading="lazy">`).join("");
-      if (mapLoadedFor !== key) {
-        detailMapFrame.src = `https://www.google.com/maps?q=${encodeURIComponent(data.map)}&output=embed`;
-        mapLoadedFor = key;
-      }
-    }
-
-    function openDetail(key, push) {
-      if (!properties[key]) return;
-      renderDetail(key);
-      document.body.classList.add("detail-open");
-      detailView.scrollTop = 0;
-      document.title = `${properties[key].name} | LuxeEstate`;
-      if (push) history.pushState({ property: key }, "", `?property=${key}`);
-      if (!virtualModelStarted) {
-        initVirtualModel();
-        virtualModelStarted = true;
-      }
-    }
-
-    function closeDetail(push) {
-      document.body.classList.remove("detail-open");
-      document.title = "LuxeEstate | Premium Real Estate USA";
-      if (push) history.pushState({}, "", window.location.pathname);
-    }
-
-    document.querySelectorAll(".details-link[data-property]").forEach((link) => {
-      link.addEventListener("click", (event) => {
-        event.preventDefault();
-        openDetail(link.dataset.property, true);
+    // ===== FAQ accordion =====
+    document.querySelectorAll('.faq-item').forEach(item => {
+      const q = item.querySelector('.faq-q');
+      const a = item.querySelector('.faq-a');
+      q.addEventListener('click', () => {
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(i => {
+          i.classList.remove('open');
+          i.querySelector('.faq-a').style.maxHeight = null;
+        });
+        if (!isOpen) { item.classList.add('open'); a.style.maxHeight = a.scrollHeight + 'px'; }
       });
     });
 
-    detailView.querySelectorAll("[data-detail-close]").forEach((el) => {
-      el.addEventListener("click", (event) => {
-        const target = el.getAttribute("href");
-        closeDetail(true);
-        if (target && target.startsWith("#") && target !== "#home") {
-          requestAnimationFrame(() => document.querySelector(target)?.scrollIntoView({ behavior: "smooth" }));
-        }
-      });
-    });
-
-    window.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && document.body.classList.contains("detail-open")) closeDetail(true);
-    });
-
-    window.addEventListener("popstate", () => {
-      const key = new URLSearchParams(window.location.search).get("property");
-      if (key && properties[key]) openDetail(key, false);
-      else closeDetail(false);
-    });
-
-    // Deep-link: open detail directly if the page loads with ?property=
-    const initialProperty = new URLSearchParams(window.location.search).get("property");
-    if (initialProperty && properties[initialProperty]) openDetail(initialProperty, false);
-
-    function initVirtualModel() {
-      if (!window.THREE) return;
-      const canvas = document.getElementById("virtualCanvas");
-      const stage = canvas.parentElement;
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(48, stage.clientWidth / stage.clientHeight, 0.1, 1000);
-      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-      renderer.setPixelRatio(renderScale);
-      renderer.setSize(stage.clientWidth, stage.clientHeight);
-      camera.position.set(0, 4, 13);
-      camera.lookAt(0, 1.4, 0);
-
-      const group = new THREE.Group();
-      group.scale.set(0.85, 0.85, 0.85);
-      group.position.y = -1.2;
-      scene.add(group);
-
-      const gold = 0xc9a84c;
-      const wire = new THREE.MeshBasicMaterial({ color: gold, wireframe: true, transparent: true, opacity: 0.85 });
-      const glass = new THREE.MeshBasicMaterial({ color: 0xe8d5a3, transparent: true, opacity: 0.08 });
-      const bodies = [
-        { geo: [2.8, 5.2, 2.2], pos: [0, 2.6, 0] },
-        { geo: [1.8, 3.8, 1.7], pos: [-2.1, 1.9, 0.2] },
-        { geo: [1.5, 3.2, 1.6], pos: [2.0, 1.6, -0.1] },
-        { geo: [4.8, 0.35, 3.4], pos: [0, 0.18, 0] }
-      ];
-
-      bodies.forEach((body) => {
-        const outline = new THREE.Mesh(new THREE.BoxGeometry(...body.geo), wire);
-        outline.position.set(...body.pos);
-        group.add(outline);
-        const fill = new THREE.Mesh(new THREE.BoxGeometry(...body.geo), glass);
-        fill.position.copy(outline.position);
-        group.add(fill);
-      });
-
-      const windowMat = new THREE.MeshBasicMaterial({ color: gold, transparent: true, opacity: 0.75 });
-      for (let y = 1; y < 5; y += 0.55) {
-        for (let x = -0.9; x <= 0.9; x += 0.55) {
-          const pane = new THREE.Mesh(new THREE.PlaneGeometry(0.18, 0.2), windowMat);
-          pane.position.set(x, y, 1.12);
-          group.add(pane);
-        }
+    // ===== Hero bubbles =====
+    const bubbles = document.getElementById('bubbles');
+    if (bubbles) {
+      for (let i = 0; i < 14; i++) {
+        const b = document.createElement('span');
+        b.className = 'bubble';
+        const size = 8 + Math.floor(40 * ((i * 37) % 100) / 100);
+        b.style.width = b.style.height = size + 'px';
+        b.style.left = ((i * 53) % 92) + '%';
+        b.style.bottom = '-' + (20 + (i * 17) % 60) + 'px';
+        b.style.animationDuration = (5 + (i % 5)) + 's';
+        b.style.animationDelay = (i * 0.45) + 's';
+        bubbles.appendChild(b);
       }
-
-      scene.add(new THREE.AmbientLight(0xffffff, 0.35));
-      const light = new THREE.PointLight(gold, 1.5, 18);
-      light.position.set(0, -1, 5);
-      scene.add(light);
-
-      let dragging = false;
-      let lastX = 0;
-      let modelInView = false;
-      let tabActive = true;
-      const modelObserver = new IntersectionObserver((entries) => {
-        modelInView = entries[0].isIntersecting;
-      }, { threshold: 0.08 });
-      modelObserver.observe(stage);
-      document.addEventListener("visibilitychange", () => {
-        tabActive = !document.hidden;
-      });
-      stage.addEventListener("mousedown", (event) => { dragging = true; lastX = event.clientX; });
-      window.addEventListener("mouseup", () => { dragging = false; });
-      window.addEventListener("mousemove", (event) => {
-        if (!dragging) return;
-        group.rotation.y += (event.clientX - lastX) * 0.01;
-        lastX = event.clientX;
-      });
-
-      function animate() {
-        requestAnimationFrame(animate);
-        if (!modelInView || !tabActive) return;
-        if (!dragging) group.rotation.y += 0.006;
-        renderer.render(scene, camera);
-      }
-      animate();
-
-      window.addEventListener("resize", () => {
-        camera.aspect = stage.clientWidth / stage.clientHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(stage.clientWidth, stage.clientHeight);
-      });
     }
+
+    // ===== Booking form =====
+    document.getElementById('bookForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      document.getElementById('bookForm').style.display = 'none';
+      document.getElementById('formSuccess').classList.add('show');
+    });
   </script>
 </body>
 </html>

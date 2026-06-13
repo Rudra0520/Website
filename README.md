@@ -1,37 +1,40 @@
-# LuxeEstate — Premium Real Estate Website
+# SparkleClean — Premium Cleaning Service Website
 
-A single-page luxury real estate website with a dark gold theme, 3D visuals,
-smooth scroll animations, and an in-page property detail view.
+A stunning, conversion-focused single-page website for a professional home &
+office cleaning company. Fresh cyan + clean-green theme, smooth animations, and
+a booking flow designed to turn visitors into customers.
 
-## Live Pages
+## Live Page
 
-- **`index.html`** — the main site. This is the file to open.
-- **`property-details.html`** — the original standalone detail page (now merged
-  into the main site; kept as a fallback / reference).
+- **`index.html`** — the entire site. This is the only file you need to open.
 
 ## Features
 
-- Fully responsive, single-file build (HTML + CSS + JS in one file)
-- Animated hero with a Three.js 3D scene
-- Interactive, draggable 3D building model
-- GSAP scroll reveals and animated stat counters
-- Property filtering (For Sale / For Rent / Luxury / Commercial)
-- Auto-playing testimonial carousel
-- **In-page property detail view** — clicking "View Details" opens a full
-  property page instantly without a reload, with:
-  - Deep linking (`index.html?property=manhattan`)
-  - Browser **Back** button support
-  - **Esc** key to close
-  - Image gallery, video tours, 3D model, and Google Maps location
-- Booking + newsletter forms (front-end demo, no backend)
-- Floating WhatsApp contact button
+- Fully responsive, single-file build (HTML + CSS + JS in one file — no build step)
+- Sticky frosted-glass navigation with mobile hamburger menu
+- Animated hero with floating soap-bubble effect and live trust badges
+- Animated stat counters (cleans completed, rating, rebook rate)
+- 6 service cards with hover lift + pricing
+- "Why Us" trust section, 4-step "How It Works" process timeline
+- 3-tier pricing table with a highlighted "Most Popular" plan
+- Customer testimonials with star ratings
+- Accordion FAQ
+- Free-quote booking form with an instant success state (front-end demo, no backend)
+- Scroll-reveal animations throughout
 
-## Tech / Dependencies (loaded via CDN)
+## Design System (from the UI/UX Pro Max skill)
 
-- [Three.js](https://threejs.org/) r128 — 3D scenes
-- [GSAP](https://greensock.com/gsap/) 3.12 + ScrollTrigger — animations
-- [Font Awesome](https://fontawesome.com/) 6.4 — icons
-- Google Fonts — Playfair Display + Inter
+- **Palette** — Cleaning Service: primary `#0891B2` (fresh cyan), CTA `#22C55E`
+  (clean green), background `#ECFEFF`, text `#164E63`
+- **Typography** — Poppins (headings) + Open Sans (body), the "Modern
+  Professional" pairing
+- **Conversion structure** — Hero → Social proof → Services → Why → Process →
+  Pricing → Testimonials → FAQ → CTA/booking
+
+## Tech / Dependencies
+
+- Google Fonts — Poppins + Open Sans (loaded via CDN)
+- Pure vanilla CSS + JavaScript — no frameworks, no libraries
 
 ## How to Run
 
@@ -41,7 +44,7 @@ No build step or server required. Just open the file in a browser:
 index.html
 ```
 
-Or, to serve locally (recommended so the videos/maps load reliably):
+Or serve locally:
 
 ```bash
 # Python 3
@@ -49,22 +52,16 @@ python -m http.server 8000
 # then visit http://localhost:8000/index.html
 ```
 
-## Project Structure
+## Customizing
 
-```
-index.html             # main site (open this)
-property-details.html  # original detail page (reference/fallback)
-assets/                # css/ and js/ folders for future split-out
-README.md
-```
-
-## Notes
-
-- All property data lives in the `properties` object inside `index.html`.
-  To add or edit a listing, update that object and add a matching
-  `<article class="property-card">` with a `data-property` link.
-- The site uses the native OS cursor for smooth, normal pointer behavior.
+- **Company name / phone / email** — search `index.html` for `SparkleClean`,
+  `(800) 555-0199`, and `hello@sparkleclean.com` and replace.
+- **Services & prices** — edit the cards in the `#services` section and the
+  `#pricing` table.
+- **Testimonials / FAQ** — edit the `#reviews` and `#faq` sections directly.
+- **Booking form** — currently a front-end demo; connect the `#bookForm`
+  submit handler to your email service or CRM to receive real leads.
 
 ---
 
-© 2026 LuxeEstate. Premium real estate services across the United States.
+© 2026 SparkleClean. Premium home & office cleaning services.
