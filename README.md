@@ -5,7 +5,7 @@ smooth scroll animations, and an in-page property detail view.
 
 ## Live Pages
 
-- **`luxeestate.html`** — the main site. This is the file to open.
+- **`index.html`** — the main site. This is the file to open.
 - **`property-details.html`** — the original standalone detail page (now merged
   into the main site; kept as a fallback / reference).
 
@@ -19,7 +19,7 @@ smooth scroll animations, and an in-page property detail view.
 - Auto-playing testimonial carousel
 - **In-page property detail view** — clicking "View Details" opens a full
   property page instantly without a reload, with:
-  - Deep linking (`luxeestate.html?property=manhattan`)
+  - Deep linking (`index.html?property=manhattan`)
   - Browser **Back** button support
   - **Esc** key to close
   - Image gallery, video tours, 3D model, and Google Maps location
@@ -38,7 +38,7 @@ smooth scroll animations, and an in-page property detail view.
 No build step or server required. Just open the file in a browser:
 
 ```
-luxeestate.html
+index.html
 ```
 
 Or, to serve locally (recommended so the videos/maps load reliably):
@@ -46,13 +46,13 @@ Or, to serve locally (recommended so the videos/maps load reliably):
 ```bash
 # Python 3
 python -m http.server 8000
-# then visit http://localhost:8000/luxeestate.html
+# then visit http://localhost:8000/index.html
 ```
 
 ## Project Structure
 
 ```
-luxeestate.html        # main site (open this)
+index.html             # main site (open this)
 property-details.html  # original detail page (reference/fallback)
 assets/                # css/ and js/ folders for future split-out
 README.md
@@ -60,7 +60,7 @@ README.md
 
 ## Notes
 
-- All property data lives in the `properties` object inside `luxeestate.html`.
+- All property data lives in the `properties` object inside `index.html`.
   To add or edit a listing, update that object and add a matching
   `<article class="property-card">` with a `data-property` link.
 - The site uses the native OS cursor for smooth, normal pointer behavior.
