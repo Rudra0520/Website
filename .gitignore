@@ -1,1 +1,17 @@
+# Claude Code local config (may contain machine paths / keys)
 .claude/
+
+# Node dependencies — never commit; reinstall from package-lock.json
+node_modules/
+
+# Environment & secrets — never commit
+.env
+.env.*
+*.pem
+*.key
+secrets.json
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.log

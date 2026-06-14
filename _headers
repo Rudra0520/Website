@@ -1,0 +1,19 @@
+## Netlify HTTP security headers — applied to every response.
+## These are the REAL headers (stronger than <meta> tags). Netlify reads this file at deploy.
+
+/*
+  ## Force HTTPS for 2 years, including subdomains. Prevents SSL-strip / downgrade attacks.
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  ## Block the page from being framed anywhere — defeats clickjacking.
+  X-Frame-Options: DENY
+  ## Stop browsers from MIME-sniffing responses into something executable.
+  X-Content-Type-Options: nosniff
+  ## Don't leak full URLs to third parties.
+  Referrer-Policy: strict-origin-when-cross-origin
+  ## Disable powerful browser features this site never uses.
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
+  ## Isolate the browsing context (Spectre-class side-channel hardening).
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+  ## Content Security Policy — whitelists exactly what may load. Everything else is blocked.
+  Content-Security-Policy: default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests

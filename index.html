@@ -4,6 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="SparkleClean — premium home & office cleaning that gives you back your time. Trusted, insured, eco-friendly. Book a sparkling clean in 60 seconds." />
+
+  <!-- ===== SECURITY HEADERS (meta fallback; prefer real HTTP headers — see SECURITY.md) ===== -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+
   <title>SparkleClean — Premium Cleaning Services You'll Love</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -33,7 +39,7 @@
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overflow-x: hidden; max-width: 100%; }
 
     body {
       font-family: 'Open Sans', system-ui, sans-serif;
@@ -41,6 +47,8 @@
       background: var(--white);
       line-height: 1.6;
       overflow-x: hidden;
+      max-width: 100%;
+      position: relative;
       -webkit-font-smoothing: antialiased;
     }
 
@@ -354,12 +362,102 @@
     footer ul li a:hover { color: var(--secondary); }
     .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 26px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 14px; }
 
+    /* ===== SCROLL PROGRESS BAR ===== */
+    .scroll-progress {
+      position: fixed; top: 0; left: 0; height: 4px; width: 0%; z-index: 2000;
+      background: linear-gradient(90deg, var(--primary), var(--secondary), var(--cta));
+      box-shadow: 0 0 12px rgba(8,145,178,0.5); transition: width .08s linear;
+    }
+
+    /* ===== JOURNEY TIMELINE (scroll-driven) ===== */
+    .journey { background: linear-gradient(180deg, var(--white), var(--bg-soft)); }
+    .journey-wrap { position: relative; max-width: 880px; margin: 0 auto; padding: 10px 0; }
+    .journey-line {
+      position: absolute; left: 31px; top: 12px; bottom: 12px; width: 3px;
+      background: var(--line); border-radius: 3px; overflow: hidden;
+    }
+    .journey-line .fill {
+      position: absolute; top: 0; left: 0; right: 0; height: 0%;
+      background: linear-gradient(180deg, var(--primary), var(--secondary), var(--cta));
+      border-radius: 3px; transition: height .15s linear;
+    }
+    .j-step { position: relative; padding: 0 0 46px 86px; }
+    .j-step:last-child { padding-bottom: 0; }
+    .j-dot {
+      position: absolute; left: 12px; top: 0; width: 42px; height: 42px; border-radius: 50%;
+      background: var(--white); border: 3px solid var(--line); display: grid; place-items: center;
+      font-family: 'Poppins'; font-weight: 700; font-size: 17px; color: var(--muted);
+      z-index: 2; transition: all .5s var(--ease);
+    }
+    .j-step.active .j-dot {
+      border-color: transparent; color: #fff; transform: scale(1.12);
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      box-shadow: 0 10px 26px rgba(8,145,178,0.4);
+    }
+    .j-card {
+      background: var(--white); border: 1px solid var(--line); border-radius: var(--radius);
+      padding: 24px 26px; box-shadow: var(--shadow-sm);
+      opacity: 0; transform: translateX(34px); transition: opacity .6s var(--ease), transform .6s var(--ease), box-shadow .4s;
+    }
+    .j-step.active .j-card { opacity: 1; transform: none; }
+    .j-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+    .j-card .j-emoji { font-size: 30px; margin-bottom: 10px; display: block; }
+    .j-card h3 { font-size: 20px; font-weight: 600; margin-bottom: 7px; }
+    .j-card p { color: var(--text-soft); font-size: 15px; }
+    .j-card .j-tag {
+      display: inline-block; font-family: 'Poppins'; font-weight: 600; font-size: 11px;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--primary);
+      background: var(--bg); padding: 4px 12px; border-radius: 100px; margin-top: 14px;
+    }
+
+    /* ===== REVIEWS SLIDER ===== */
+    .reviews-slider { position: relative; max-width: 1180px; margin: 0 auto; }
+    .slider-viewport { overflow: hidden; padding: 14px 6px 28px; }
+    .slider-track { display: flex; transition: transform .65s var(--ease); will-change: transform; }
+    .review-slide { flex: 0 0 33.3333%; padding: 0 12px; box-sizing: border-box; }
+    .review-card {
+      background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-lg);
+      padding: 34px 30px; height: 100%; position: relative; overflow: hidden;
+      transition: transform .4s var(--ease), box-shadow .4s var(--ease), border-color .4s;
+    }
+    .review-card::before {
+      content: "\201C"; position: absolute; top: 6px; right: 24px;
+      font-family: 'Poppins'; font-size: 110px; line-height: 1; color: var(--bg); z-index: 0;
+    }
+    .review-card > * { position: relative; z-index: 1; }
+    .review-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-md); border-color: transparent; }
+    .review-stars { color: #f59e0b; font-size: 17px; letter-spacing: 2px; margin-bottom: 16px; }
+    .review-card p.quote { font-size: 16px; color: var(--text); line-height: 1.7; margin-bottom: 24px; min-height: 132px; }
+    .review-who { display: flex; align-items: center; gap: 13px; padding-top: 18px; border-top: 1px solid var(--line); }
+    .review-av { width: 50px; height: 50px; border-radius: 50%; display: grid; place-items: center; font-family: 'Poppins'; font-weight: 700; color: #fff; font-size: 18px; flex-shrink: 0; }
+    .review-who h4 { font-size: 15px; font-weight: 600; }
+    .review-who span { font-size: 13px; color: var(--muted); }
+
+    .slider-ctrl { display: flex; align-items: center; justify-content: center; gap: 22px; margin-top: 10px; }
+    .slider-arrow {
+      width: 52px; height: 52px; border-radius: 50%; border: 1.5px solid var(--line);
+      background: var(--white); color: var(--primary); font-size: 22px; cursor: pointer;
+      display: grid; place-items: center; box-shadow: var(--shadow-sm);
+      transition: transform .3s var(--ease), box-shadow .3s, background .3s, color .3s, border-color .3s;
+    }
+    .slider-arrow:hover { background: var(--primary); color: #fff; border-color: transparent; transform: translateY(-3px); box-shadow: var(--shadow-md); }
+    .slider-arrow:active { transform: scale(0.94); }
+    .slider-dots { display: flex; align-items: center; gap: 9px; }
+    .slider-dots button {
+      width: 9px; height: 9px; border-radius: 50%; border: none; padding: 0; cursor: pointer;
+      background: var(--line); transition: all .35s var(--ease);
+    }
+    .slider-dots button.active { width: 28px; border-radius: 6px; background: linear-gradient(90deg, var(--primary), var(--secondary)); }
+
     /* ===== REVEAL ANIMATION ===== */
     .reveal { opacity: 0; transform: translateY(34px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
     .reveal.in { opacity: 1; transform: none; }
     .reveal[data-delay="1"] { transition-delay: .1s; }
     .reveal[data-delay="2"] { transition-delay: .2s; }
     .reveal[data-delay="3"] { transition-delay: .3s; }
+    /* scale-in variant for richer entrances */
+    .reveal-zoom { opacity: 0; transform: translateY(40px) scale(0.96); transition: opacity .75s var(--ease), transform .75s var(--ease); }
+    .reveal-zoom.in { opacity: 1; transform: none; }
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 980px) {
@@ -372,6 +470,8 @@
       .process-grid::before { display: none; }
       .stats-row { grid-template-columns: 1fr 1fr; gap: 32px 16px; }
       .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+      .review-slide { flex-basis: 50%; }
+      .review-card p.quote { min-height: 0; }
     }
     @media (max-width: 760px) {
       .nav-links, .nav-phone { display: none; }
@@ -385,6 +485,10 @@
       .field-row { grid-template-columns: 1fr; }
       .footer-grid { grid-template-columns: 1fr 1fr; }
       .hero { padding-top: 130px; }
+      .review-slide { flex-basis: 100%; }
+      .j-step { padding-left: 72px; }
+      .journey-line { left: 25px; }
+      .j-dot { width: 38px; height: 38px; left: 8px; }
     }
     @media (max-width: 460px) {
       .stats-row, .process-grid, .footer-grid { grid-template-columns: 1fr 1fr; }
@@ -393,6 +497,9 @@
   </style>
 </head>
 <body>
+
+  <!-- ===== SCROLL PROGRESS ===== -->
+  <div class="scroll-progress" id="scrollProgress"></div>
 
   <!-- ===== HEADER ===== -->
   <header id="header">
@@ -574,19 +681,56 @@
     </div>
   </section>
 
-  <!-- ===== PROCESS ===== -->
-  <section class="section" id="process">
+  <!-- ===== OUR JOURNEY (scroll timeline) ===== -->
+  <section class="section journey" id="process">
     <div class="container">
       <div class="section-head reveal">
-        <span class="eyebrow">How It Works</span>
+        <span class="eyebrow">Our Journey With You</span>
         <h2 class="section-title">Booked in 60 Seconds. Done in a Few Hours.</h2>
-        <p class="section-sub">No phone tag, no awkward estimates. Just a clean home, on your schedule.</p>
+        <p class="section-sub">No phone tag, no awkward estimates. Follow the path from "book" to "spotless" — we handle every step.</p>
       </div>
-      <div class="process-grid">
-        <div class="step reveal"><div class="step-num">1</div><h3>Book Online</h3><p>Pick your service, date, and time in under a minute.</p></div>
-        <div class="step reveal" data-delay="1"><div class="step-num">2</div><h3>We Confirm</h3><p>Get an instant quote and a matched, vetted cleaning pro.</p></div>
-        <div class="step reveal" data-delay="2"><div class="step-num">3</div><h3>We Clean</h3><p>Our team arrives on time with everything needed to shine.</p></div>
-        <div class="step reveal" data-delay="3"><div class="step-num">4</div><h3>You Relax</h3><p>Come home to a spotless space — guaranteed, or we re-clean free.</p></div>
+      <div class="journey-wrap" id="journey">
+        <div class="journey-line"><div class="fill" id="journeyFill"></div></div>
+
+        <div class="j-step">
+          <div class="j-dot">1</div>
+          <div class="j-card">
+            <span class="j-emoji">📲</span>
+            <h3>Book Online</h3>
+            <p>Pick your service, date, and time in under a minute — from any device, no phone call needed.</p>
+            <span class="j-tag">~60 seconds</span>
+          </div>
+        </div>
+
+        <div class="j-step">
+          <div class="j-dot">2</div>
+          <div class="j-card">
+            <span class="j-emoji">✅</span>
+            <h3>We Confirm & Match</h3>
+            <p>You get an instant quote and a hand-matched, vetted cleaning pro for your space.</p>
+            <span class="j-tag">Instant quote</span>
+          </div>
+        </div>
+
+        <div class="j-step">
+          <div class="j-dot">3</div>
+          <div class="j-card">
+            <span class="j-emoji">🧹</span>
+            <h3>We Clean</h3>
+            <p>Our team arrives on time with professional, eco-friendly supplies and makes every corner shine.</p>
+            <span class="j-tag">On schedule</span>
+          </div>
+        </div>
+
+        <div class="j-step">
+          <div class="j-dot">4</div>
+          <div class="j-card">
+            <span class="j-emoji">😌</span>
+            <h3>You Relax</h3>
+            <p>Come home to a spotless space — backed by our Sparkle Guarantee, or we re-clean it free.</p>
+            <span class="j-tag">Guaranteed</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -643,7 +787,7 @@
     </div>
   </section>
 
-  <!-- ===== TESTIMONIALS ===== -->
+  <!-- ===== TESTIMONIALS (sliding carousel) ===== -->
   <section class="section" id="reviews">
     <div class="container">
       <div class="section-head reveal">
@@ -651,21 +795,59 @@
         <h2 class="section-title">Don't Take Our Word for It</h2>
         <p class="section-sub">Real reviews from real customers who got their time back.</p>
       </div>
-      <div class="testi-grid">
-        <div class="testi-card reveal">
-          <div class="testi-stars">★★★★★</div>
-          <p>"Honestly the best cleaning service I've used. My apartment has never looked this good — they nailed the deposit-back deep clean perfectly. Booking took two minutes."</p>
-          <div class="testi-who"><div class="testi-av" style="background:#0891b2;">SR</div><div><h4>Sarah Reynolds</h4><span>Brooklyn, NY</span></div></div>
+
+      <div class="reviews-slider reveal-zoom" id="reviewsSlider">
+        <div class="slider-viewport">
+          <div class="slider-track" id="sliderTrack">
+            <div class="review-slide">
+              <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="quote">Honestly the best cleaning service I've used. My apartment has never looked this good — they nailed the deposit-back deep clean perfectly. Booking took two minutes.</p>
+                <div class="review-who"><div class="review-av" style="background:#0891b2;">SR</div><div><h4>Sarah Reynolds</h4><span>Brooklyn, NY</span></div></div>
+              </div>
+            </div>
+            <div class="review-slide">
+              <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="quote">We switched our whole office to SparkleClean and the team is reliable, friendly, and thorough. Our space feels healthier and clients always notice. Worth every penny.</p>
+                <div class="review-who"><div class="review-av" style="background:#22c55e;">MT</div><div><h4>Marcus Tan</h4><span>Office Manager, BrewLab</span></div></div>
+              </div>
+            </div>
+            <div class="review-slide">
+              <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="quote">As a working mom of three, this gave me my weekends back. The same lovely cleaner comes every two weeks and the eco products mean I never worry about the kids. Life-changing.</p>
+                <div class="review-who"><div class="review-av" style="background:#0e7490;">AL</div><div><h4>Amara Lewis</h4><span>Austin, TX</span></div></div>
+              </div>
+            </div>
+            <div class="review-slide">
+              <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="quote">The move-out clean got my full deposit back — my landlord actually said it looked better than when I moved in. Punctual, friendly, and ridiculously thorough.</p>
+                <div class="review-who"><div class="review-av" style="background:#0891b2;">JP</div><div><h4>James Porter</h4><span>Chicago, IL</span></div></div>
+              </div>
+            </div>
+            <div class="review-slide">
+              <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="quote">I've tried three other services and cancelled them all. SparkleClean is the only one that's consistent every single visit. The recurring discount is a great bonus too.</p>
+                <div class="review-who"><div class="review-av" style="background:#16a34a;">DN</div><div><h4>Diana Nguyen</h4><span>Seattle, WA</span></div></div>
+              </div>
+            </div>
+            <div class="review-slide">
+              <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="quote">Booked a same-day clean before guests arrived and they saved the day. Spotless kitchen, sparkling bathrooms, and the eco products left zero harsh smell. Incredible.</p>
+                <div class="review-who"><div class="review-av" style="background:#0e7490;">RM</div><div><h4>Ricardo Morales</h4><span>Miami, FL</span></div></div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="testi-card reveal" data-delay="1">
-          <div class="testi-stars">★★★★★</div>
-          <p>"We switched our whole office to SparkleClean and the team is reliable, friendly, and thorough. Our space feels healthier and clients always notice. Worth every penny."</p>
-          <div class="testi-who"><div class="testi-av" style="background:#22c55e;">MT</div><div><h4>Marcus Tan</h4><span>Office Manager, BrewLab</span></div></div>
-        </div>
-        <div class="testi-card reveal" data-delay="2">
-          <div class="testi-stars">★★★★★</div>
-          <p>"As a working mom of three, this gave me my weekends back. The same lovely cleaner comes every two weeks and the eco products mean I never worry about the kids. Life-changing."</p>
-          <div class="testi-who"><div class="testi-av" style="background:#0e7490;">AL</div><div><h4>Amara Lewis</h4><span>Austin, TX</span></div></div>
+
+        <div class="slider-ctrl">
+          <button class="slider-arrow" id="sliderPrev" aria-label="Previous reviews">‹</button>
+          <div class="slider-dots" id="sliderDots"></div>
+          <button class="slider-arrow" id="sliderNext" aria-label="Next reviews">›</button>
         </div>
       </div>
     </div>
@@ -717,11 +899,15 @@
         </div>
       </div>
       <div class="booking">
-        <form id="bookForm">
+        <form id="bookForm" autocomplete="on" novalidate>
           <h3>Get Your Free Quote</h3>
           <p class="sub">Takes less than 60 seconds.</p>
+          <!-- Honeypot: hidden from humans, bots fill it in. Submissions with this set are silently dropped. -->
+          <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;">
+            <label>Leave this field empty<input id="company_website" name="company_website" type="text" tabindex="-1" autocomplete="off" /></label>
+          </div>
           <div class="field-row">
-            <div class="field"><label for="name">Full name</label><input id="name" type="text" placeholder="Jane Doe" required /></div>
+            <div class="field"><label for="name">Full name</label><input id="name" type="text" placeholder="Jane Doe" maxlength="80" required /></div>
             <div class="field"><label for="phone">Phone</label><input id="phone" type="tel" placeholder="(800) 555-0199" required /></div>
           </div>
           <div class="field"><label for="email">Email</label><input id="email" type="email" placeholder="jane@email.com" required /></div>
@@ -770,10 +956,10 @@
           <a href="#home" class="logo"><span class="logo-mark">✦</span>SparkleClean</a>
           <p class="f-about">Premium, eco-friendly cleaning for homes and offices. Giving busy people their time — and their sparkle — back since 2014.</p>
           <div class="f-social">
-            <a href="#" aria-label="Facebook">f</a>
-            <a href="#" aria-label="Instagram">◎</a>
-            <a href="#" aria-label="Twitter">✕</a>
-            <a href="#" aria-label="LinkedIn">in</a>
+            <a href="#" rel="noopener noreferrer" aria-label="Facebook">f</a>
+            <a href="#" rel="noopener noreferrer" aria-label="Instagram">◎</a>
+            <a href="#" rel="noopener noreferrer" aria-label="Twitter">✕</a>
+            <a href="#" rel="noopener noreferrer" aria-label="LinkedIn">in</a>
           </div>
         </div>
         <div>
@@ -811,11 +997,17 @@
   </footer>
 
   <script>
-    // ===== Sticky nav =====
+    // ===== Sticky nav + scroll progress bar =====
     const header = document.getElementById('header');
-    window.addEventListener('scroll', () => {
-      header.classList.toggle('scrolled', window.scrollY > 30);
-    });
+    const scrollProgress = document.getElementById('scrollProgress');
+    function onScroll() {
+      const y = window.scrollY;
+      header.classList.toggle('scrolled', y > 30);
+      const docH = document.documentElement.scrollHeight - window.innerHeight;
+      scrollProgress.style.width = (docH > 0 ? (y / docH) * 100 : 0) + '%';
+      updateJourney();
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
 
     // ===== Mobile menu =====
     const toggle = document.getElementById('navToggle');
@@ -829,7 +1021,7 @@
         if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    document.querySelectorAll('.reveal, .reveal-zoom').forEach(el => io.observe(el));
 
     // ===== Animated counters =====
     const counters = document.querySelectorAll('[data-count]');
@@ -885,10 +1077,130 @@
       }
     }
 
-    // ===== Booking form =====
-    document.getElementById('bookForm').addEventListener('submit', (e) => {
+    // ===== Our Journey — scroll-driven timeline =====
+    const journey = document.getElementById('journey');
+    const journeyFill = document.getElementById('journeyFill');
+    const jSteps = journey ? Array.from(journey.querySelectorAll('.j-step')) : [];
+    function updateJourney() {
+      if (!journey) return;
+      const rect = journey.getBoundingClientRect();
+      const vh = window.innerHeight;
+      // progress of the section through a comfortable reading band
+      const total = rect.height;
+      const passed = Math.min(Math.max(vh * 0.7 - rect.top, 0), total);
+      const pct = total > 0 ? (passed / total) * 100 : 0;
+      journeyFill.style.height = pct + '%';
+      // activate each step once the fill reaches its dot
+      jSteps.forEach(step => {
+        const dot = step.querySelector('.j-dot');
+        const dotMid = dot.getBoundingClientRect().top + dot.offsetHeight / 2;
+        step.classList.toggle('active', dotMid < vh * 0.78);
+      });
+    }
+    updateJourney();
+
+    // ===== Reviews slider =====
+    (function () {
+      const track = document.getElementById('sliderTrack');
+      if (!track) return;
+      const slides = Array.from(track.children);
+      const prevBtn = document.getElementById('sliderPrev');
+      const nextBtn = document.getElementById('sliderNext');
+      const dotsWrap = document.getElementById('sliderDots');
+      const sliderEl = document.getElementById('reviewsSlider');
+
+      let perView = 3, index = 0, maxIndex = 0, autoTimer = null;
+
+      function calcPerView() {
+        const w = window.innerWidth;
+        return w <= 760 ? 1 : (w <= 980 ? 2 : 3);
+      }
+
+      function buildDots() {
+        dotsWrap.innerHTML = '';
+        for (let i = 0; i <= maxIndex; i++) {
+          const b = document.createElement('button');
+          b.setAttribute('aria-label', 'Go to review group ' + (i + 1));
+          b.addEventListener('click', () => { go(i); resetAuto(); });
+          dotsWrap.appendChild(b);
+        }
+      }
+
+      function render() {
+        const slideW = 100 / perView;
+        track.style.transform = 'translateX(-' + (index * slideW) + '%)';
+        Array.from(dotsWrap.children).forEach((d, i) => d.classList.toggle('active', i === index));
+      }
+
+      function go(i) {
+        index = Math.max(0, Math.min(i, maxIndex));
+        render();
+      }
+      function next() { go(index >= maxIndex ? 0 : index + 1); }
+      function prev() { go(index <= 0 ? maxIndex : index - 1); }
+
+      function layout() {
+        const newPer = calcPerView();
+        perView = newPer;
+        slides.forEach(s => s.style.flexBasis = (100 / perView) + '%');
+        maxIndex = Math.max(0, slides.length - perView);
+        if (index > maxIndex) index = maxIndex;
+        buildDots();
+        render();
+      }
+
+      // autoplay
+      function startAuto() { autoTimer = setInterval(next, 4500); }
+      function resetAuto() { clearInterval(autoTimer); startAuto(); }
+
+      nextBtn.addEventListener('click', () => { next(); resetAuto(); });
+      prevBtn.addEventListener('click', () => { prev(); resetAuto(); });
+      sliderEl.addEventListener('mouseenter', () => clearInterval(autoTimer));
+      sliderEl.addEventListener('mouseleave', startAuto);
+
+      // touch / drag swipe
+      let startX = 0, dragging = false;
+      const vp = sliderEl.querySelector('.slider-viewport');
+      vp.addEventListener('touchstart', e => { startX = e.touches[0].clientX; dragging = true; }, { passive: true });
+      vp.addEventListener('touchend', e => {
+        if (!dragging) return; dragging = false;
+        const dx = e.changedTouches[0].clientX - startX;
+        if (Math.abs(dx) > 40) { dx < 0 ? next() : prev(); resetAuto(); }
+      });
+
+      window.addEventListener('resize', layout);
+      layout();
+      startAuto();
+    })();
+
+    // ===== Booking form (with honeypot + validation) =====
+    const bookForm = document.getElementById('bookForm');
+    bookForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      document.getElementById('bookForm').style.display = 'none';
+
+      // 1) Honeypot — if a bot filled the hidden field, silently "succeed" without sending.
+      const honeypot = document.getElementById('company_website');
+      if (honeypot && honeypot.value.trim() !== '') {
+        bookForm.style.display = 'none';
+        document.getElementById('formSuccess').classList.add('show');
+        return; // drop the spam
+      }
+
+      // 2) Client-side validation (UX only — ALWAYS re-validate on the server too).
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      const phoneOk = /[0-9]{7,}/.test(phone.replace(/[^0-9]/g, ''));
+      if (!name || !emailOk || !phoneOk) {
+        alert('Please enter a valid name, email, and phone number.');
+        return;
+      }
+
+      // NOTE: This is currently front-end only — no data is transmitted or stored.
+      // When you connect a backend, send via HTTPS to a trusted endpoint and
+      // re-validate + sanitize every field server-side.
+      bookForm.style.display = 'none';
       document.getElementById('formSuccess').classList.add('show');
     });
   </script>
