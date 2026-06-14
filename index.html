@@ -476,6 +476,10 @@
     @media (max-width: 760px) {
       .nav-links, .nav-phone { display: none; }
       .nav-toggle { display: flex; }
+      .nav-cta { gap: 10px; }
+      .logo { font-size: 19px; gap: 8px; }
+      .logo-mark { width: 32px; height: 32px; font-size: 17px; }
+      .nav-cta .btn-primary { padding: 10px 16px !important; font-size: 14px !important; }
       .nav-links.mobile-open {
         display: flex; flex-direction: column; position: absolute; top: 100%; left: 16px; right: 16px;
         background: #fff; padding: 24px; border-radius: 18px; box-shadow: var(--shadow-lg); gap: 18px; margin-top: 8px;
@@ -493,6 +497,8 @@
     @media (max-width: 460px) {
       .stats-row, .process-grid, .footer-grid { grid-template-columns: 1fr 1fr; }
       .hero-actions .btn { width: 100%; }
+      .container { padding: 0 16px; }
+      .nav-cta .btn-primary { padding: 9px 13px !important; }
     }
   </style>
 </head>
